@@ -1,5 +1,21 @@
 <script>
 	import Display from "$components/Display.svelte";
+	import Post from "$components/Post.svelte";
+
+	let posts = [
+		{
+			id: 1,
+		},
+		{
+			id: 1,
+		},
+		{
+			id: 1,
+		},
+		{
+			id: 1,
+		}
+	]
 </script>
 
 <Display
@@ -18,11 +34,8 @@
     ]}
 >
     <ul role="list" class="space-y-3 p-4">
-        <li class="overflow-hidden rounded-md bg-white px-6 py-4 shadow">
-            post
-        </li>
-        <li class="overflow-hidden rounded-md bg-white px-6 py-4 shadow">
-            post
-        </li>
+        {#each posts as post}
+            <Post/>
+        {/each}
     </ul>
 </Display>
