@@ -21,9 +21,9 @@
 	$: NProgress[$navigating ? 'start' : 'done']();
 
 	const links = [
-		{title: "Home", icon: "bx:bx-home", href: "/"},
-		{title: "Profile", icon: "bx:bx-user", href: "/me", auth: true},
-		{title: "Settings", icon: "bx:bx-cog", href: "/me/settings", auth: true}
+		{title: "Home", icon: "material-symbols:home-outline", href: "/"},
+		{title: "Profile", icon: "material-symbols:person-outline", href: "/me", auth: true},
+		{title: "Settings", icon: "material-symbols:settings-outline", href: "/me/settings", auth: true}
 	];
 
 	export let data;

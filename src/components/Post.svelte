@@ -62,8 +62,8 @@ console.log("Hello World");
              src="https://via.placeholder.com/150"
              alt={""}>
         <div class="flex flex-col">
-            <div class="text-white">User</div>
-            <div class="text-gray-400 font-bold text-xs">@username</div>
+            <div class="text-white font-medium">User</div>
+            <div class="text-gray-400 font-medium text-xs">@username</div>
         </div>
         <div class="flex-grow"></div>
         <div class="text-gray-400 text-xs h-full">{timeSince(new Date())}</div>
@@ -73,17 +73,3 @@ console.log("Hello World");
         {@html sanitizedContent}
     </div>
 </li>
-
-<style lang="postcss" global>
-    h1 {
-        @apply text-2xl font-bold;
-    }
-
-    h2 {
-        @apply text-xl font-bold;
-    }
-
-    h3 {
-        @apply text-lg font-bold;
-    }
-</style>
