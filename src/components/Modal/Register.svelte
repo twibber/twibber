@@ -48,7 +48,7 @@
     <Input id="cPassword" name="Confirm Password" placeholder="Confirm Password" type="password"
            bind:value={cPassword}/>
     <div class="text-xs font-medium text-gray-400">
-        Don't have an account?
-        <button on:click={() => setModal("register")} type="button" class="underline hover:text-gray-300 transition">Register</button>
+        Already have an account?
+        <button on:click={() => setModal("login")} type="button" class="underline hover:text-gray-300 transition">Login</button>
     </div>
 </Template>
