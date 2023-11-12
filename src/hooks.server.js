@@ -8,7 +8,5 @@ export async function handleFetch({event, request, fetch}) {
 		request.headers.set('cookie', event.request.headers.get('cookie'));
 	}
 
-	console.log("handleFetch", request.url, request.headers.get('cookie'));
-
 	return fetch(request);
 }

@@ -59,7 +59,7 @@ console.log("Hello World");
 <li class="overflow-hidden shadow flex flex-col w-full bg-gray-950 rounded">
     <div class="flex flex-row items-center gap-4 h-16 p-3">
         <img class="w-10 h-10 rounded-full"
-             src="Nothing"
+             src="https://via.placeholder.com/150"
              alt={""}>
         <div class="flex flex-col">
             <div class="text-white">User</div>

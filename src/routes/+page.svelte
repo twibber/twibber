@@ -19,19 +19,7 @@
 </script>
 
 <Display
-        title="Home"
-        buttons={[
-        {
-            title: "For You",
-            href: "/",
-            icon: "fluent:person-32-filled"
-        },
-        {
-            title: "Following",
-            href: "/following",
-            icon: "fluent:person-32-filled"
-        }
-    ]}
+        title="Feed"
 >
     <ul role="list" class="space-y-3 p-4">
         {#each posts as post}

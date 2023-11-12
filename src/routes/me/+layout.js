@@ -6,5 +6,9 @@ export const load = (async ({fetch}) => {
 		method: 'GET',
 		url: '/account',
 		fetchHandler: fetch,
-	}).catch(handleErrorsLoad)
+	}).catch(handleErrorsLoad).then((res) => {
+		return {
+			session: res?.body?.data
+		}
+	});
 })

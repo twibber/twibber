@@ -9,11 +9,9 @@ export const load = (async ({fetch}) => {
 
 	if (session) {
 		return {
-			session
+			session: session
 		}
 	} else {
-		return {
-			session: null
-		}
+		return {}
 	}
 })

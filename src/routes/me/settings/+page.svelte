@@ -5,8 +5,8 @@
 </script>
 
 <Display
-        title={"Profile"}
+        title={"Settings"}
 >
-    <pre>{JSON.stringify(data?.session?.connection, null, 2)}</pre>
+    <pre>{JSON.stringify(data?.session?.connection?.user, null, 2)}</pre>
 
 </Display>
