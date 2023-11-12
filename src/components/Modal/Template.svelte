@@ -25,7 +25,7 @@
             class="z-30 flex w-full max-w-md flex-col rounded-lg bg-gray-900"
     >
         <div
-                class="flex flex-col items-center justify-center gap-2 border-gray-800 py-4 {!propIsEmpty
+                class="flex flex-col items-start justify-center gap-2 border-gray-800 py-4 {!propIsEmpty
 				? 'border-b'
 				: ''}"
         >

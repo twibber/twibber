@@ -17,7 +17,8 @@
 			body: {
 				email,
 				password
-			}
+			},
+            captcha: "login",
 		}).then((res) => {
 			if (res?.body?.success) {
 				toast.success("Logged in successfully!");

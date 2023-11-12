@@ -22,7 +22,8 @@
 				username,
 				email,
 				password
-			}
+			},
+			captcha: "register",
 		})
 			.then(() => {
 				invalidateAll();
