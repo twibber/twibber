@@ -11,9 +11,6 @@
 	import {navigating} from "$app/stores";
 
 	import {env} from "$env/dynamic/public";
-	import {onMount} from "svelte";
-	import {request} from "$lib/request.js";
-	import {toast} from "$lib/toaster.js";
 	import {setModal} from "$lib/modals.js";
 
 	NProgress.configure({
@@ -29,21 +26,7 @@
 		{title: "Settings", icon: "bx:bx-cog", href: "/me/settings", auth: true}
 	];
 
-	let auth = false;
-	onMount(async () => {
-		await request({
-			method: 'GET',
-			url: '/account',
-		}).then(() => {
-			auth = true;
-		}).catch(err => {
-			if (err?.body?.error?.code === "UNAUTHORIZED") {
-				auth = false;
-			} else {
-				toast.error(err?.body?.error?.message ?? "An unexpected server side error occurred.");
-			}
-		});
-	});
+	export let data;
 </script>
 
 <svelte:head>
@@ -51,19 +34,19 @@
     <script src="https://www.google.com/recaptcha/api.js?render={env.PUBLIC_SITEKEY}" async defer></script>
 </svelte:head>
 
-<div class="flex flex-row min-h-screen w-full bg-gray-900 text-white">
+<div class="flex flex-row min-h-screen w-full bg-gray-900 text-white font-medium">
     <Toaster/>
     <Modal/>
 
     <!-- Navbar -->
     <div class="flex flex-col relative items-start w-full min-h-screen h-full max-w-[5rem] xl:max-w-xs ml-auto border-r border-gray-800">
         <div class="flex flex-row items-center justify-center xl:justify-start w-full px-4 pt-4">
-            <img src="/assets/img/q/transparent_white_128x128.png" alt="Twibber Logo" class="w-10 h-10"/>
+            <img src="/favicon-dark.png" alt="Twibber Logo" class="w-10 h-10"/>
         </div>
 
         <nav class="flex flex-col items-start justify-start w-full h-full p-4 gap-2 flex-grow">
             {#each links as link}
-                {#if !link.auth || link.auth === auth}
+                {#if !link.auth || !!data.session === link.auth}
                     <a href={link.href}
                        class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition">
                         <Icon icon={link.icon} class="w-6 h-6"/>
@@ -74,7 +57,7 @@
 
             <div class="flex-grow"></div>
 
-            {#if !auth}
+            {#if !data?.session}
                 <button on:click={() => setModal("login")}
                         class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition">
                     <Icon icon="bx:bx-log-in" class="w-6 h-6"/>
@@ -82,13 +65,13 @@
                 </button>
             {:else}
                 <!-- Profile Section -->
-                <a href="/me"
-                   class="flex flex-row gap-4 items-center justify-center lg:justify-start w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 transition p-0 xl:px-3 xl:py-8">
-                    <img src="/assets/img/q/transparent_white_128x128.png" alt="pfp"
-                         class="w-10 h-10 rounded-full object-cover bg-black"/>
-                    <div class="hidden xl:flex flex-col text-left w-full gap-0">
-                        <div class="block text-lg">Twibber</div>
-                        <div class="block text-sm text-gray-400">@twibber</div>
+                <a href="/me" class="w-full p-2 border border-gray-800 rounded-full font-medium flex items-center">
+                    <div class="flex flex-row justify-between items-center w-full">
+                        <div class="text-sm font-medium text-gray-300 group-hover:text-gray-900 pl-2">Logged in as <span
+                                class="font-bold">{data?.session?.connection?.user?.username}</span></div>
+                        <div class="text-sm font-bold rounded-full bg-gray-800 hover:bg-red-900 transition py-2 px-4">
+                            Logout
+                        </div>
                     </div>
                 </a>
             {/if}

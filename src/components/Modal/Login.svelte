@@ -2,31 +2,29 @@
 	import Template from './Template.svelte';
 	import Input from './Input.svelte';
 
-	import {goto, invalidate} from '$app/navigation';
-	import {getURL, request} from '$lib/request.js';
+	import {invalidateAll} from '$app/navigation';
+	import {request} from '$lib/request.js';
 	import {hideModal, setModal} from '$lib/modals.js';
 	import {handleErrors} from '$lib/errors.js';
+	import {toast} from "$lib/toaster.js";
 
 	let email = "", password = "";
 
 	async function emailLogin() {
 		return await request({
 			method: 'POST',
-			url: '/auth/login',
+			url: '/auth/email/login',
 			body: {
 				email,
 				password
 			}
-		})
-			.then((res) => {
-				invalidate(getURL('/'))
-					.catch((err) => handleErrors(err))
-					.finally(() => {
-						goto('/' + res?.body?.project?.id);
-						hideModal();
-					});
-			})
-			.catch((err) => handleErrors(err));
+		}).then((res) => {
+			if (res?.body?.success) {
+				toast.success("Logged in successfully!");
+				invalidateAll();
+				hideModal();
+			}
+		}).catch(handleErrors);
 	}
 </script>
 
@@ -38,9 +36,14 @@
             handler: emailLogin,
         }}
 >
-    <Input id="email" name="Email Address" placeholder="Email Address" type="email" bind:value={email}/>
-    <Input id="password" name="Password" placeholder="Password" type="password" bind:value={password}/>
+    <Input id="email" autocomplete="username" name="Email Address" placeholder="Email Address" type="email"
+           bind:value={email}/>
+    <Input id="password" autocomplete="current-password" name="Password" placeholder="Password" type="password"
+           bind:value={password}/>
     <div class="text-xs font-medium text-gray-400">
-        Don't have an account? <button on:click={() => setModal("register")} class="underline hover:text-gray-300 transition">Register</button>
+        Don't have an account?
+        <button on:click={() => setModal("register")} type="button" class="underline hover:text-gray-300 transition">
+            Register
+        </button>
     </div>
 </Template>

@@ -3,7 +3,7 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     fontFamily: {
-        sans: ['GeneralSans', 'sans-serif'],
+        sans: ['Satoshi-Variable', 'sans-serif'],
     },
     extend: {},
   },

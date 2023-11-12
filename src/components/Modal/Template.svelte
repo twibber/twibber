@@ -4,12 +4,16 @@
 
 	export let title = "",
 		subtitle = "",
-		confirm = {name: null, handler: null};
+		confirm = {
+			name: "", handler: () => {
+			}
+		};
 
 	const propIsEmpty = Object.keys($$slots)?.length === 0;
 </script>
 
-<div class="fixed top-0 left-0 z-10 flex h-screen w-screen items-center justify-center">
+<form class="fixed top-0 left-0 z-10 flex h-screen w-screen items-center justify-center"
+      on:submit|preventDefault={confirm?.handler}>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div
             on:click={hideModal}
@@ -18,7 +22,7 @@
     <div
             in:fly={{ y: 400, duration: 100 }}
             out:fly={{ y: 400, duration: 100 }}
-            class="z-30 flex w-full max-w-md flex-col rounded border border-gray-800 bg-gray-900"
+            class="z-30 flex w-full max-w-md flex-col rounded-lg bg-gray-900"
     >
         <div
                 class="flex flex-col items-center justify-center gap-2 border-gray-800 py-4 {!propIsEmpty
@@ -44,18 +48,19 @@
         {#if confirm?.name}
             <div class="flex h-12 flex-row">
                 <button
-                        on:click={hideModal}
-                        class="h-full w-full rounded-bl border-t border-gray-800 bg-gray-900 bg-opacity-50 transition hover:bg-opacity-100"
+                        type="button"
+                        on:click={() => hideModal()}
+                        class="h-full w-full rounded-bl-lg border-t border-gray-800 bg-gray-900 bg-opacity-50 transition hover:bg-opacity-100"
                 >
                     Cancel
                 </button>
                 <button
-                        on:click={confirm?.handler}
-                        class="h-full w-full rounded-br border-t border-l border-gray-800 transition hover:bg-gray-900"
+                        type="submit"
+                        class="h-full w-full rounded-br-lg border-t border-l border-gray-800 transition hover:bg-gray-900"
                 >
                     {confirm?.name}
                 </button>
             </div>
         {/if}
     </div>
-</div>
+</form>

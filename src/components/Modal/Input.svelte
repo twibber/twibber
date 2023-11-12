@@ -1,7 +1,7 @@
 <script>
     import {errors} from '$lib/errors';
 
-    export let id, type, name, value, placeholder;
+    export let id, type, name, value, placeholder, autocomplete;
 
     let errorMessages = [];
 
@@ -14,7 +14,8 @@
     <span class="text-xs font-medium tracking-wide text-gray-300">{name}</span>
     <input
             {...{type}}
-            class="border border-gray-700 bg-gray-900 py-1.5 px-2 font-medium outline-none ring-0 transition placeholder:text-gray-400 focus:border-gray-600 focus:outline-none focus:ring-0 rounded"
+            {autocomplete}
+            class="bg-gray-950 py-2 px-2 font-medium outline-none ring-0 transition placeholder:text-gray-400 bg-opacity-25 focus:bg-opacity-50 focus:border-blue-600 focus:outline-none focus:ring-0 rounded-lg"
             {placeholder}
             bind:value
     />

@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'GeneralSans-Variable';
-    src: url('/assets/fonts/GeneralSans-Variable.woff2') format('woff2'),
-    url('/assets/fonts/GeneralSans-Variable.woff') format('woff'),
-    url('/assets/fonts/GeneralSans-Variable.ttf') format('truetype');
+    font-family: 'Satoshi-Variable';
+    src: url('/assets/fonts/Satoshi-Variable.woff2') format('woff2'),
+    url('/assets/fonts/Satoshi-Variable.woff') format('woff'),
+    url('/assets/fonts/Satoshi-Variable.ttf') format('truetype');
     font-weight: 200 700;
     font-display: swap;
     font-style: normal;
@@ -14,4 +14,8 @@
 
 .grecaptcha-badge {
     visibility: hidden;
+}
+
+:root {
+    color-scheme: dark;
 }
