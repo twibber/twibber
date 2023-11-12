@@ -11,9 +11,9 @@
 </svelte:head>
 
 <!-- Main Content -->
-<main class="overflow-x-auto text-white max-w-screen-md w-full min-h-full">
+<main class="text-white max-w-screen-md w-full min-h-full">
     <!--Topbar with title-->
-    <div class="flex flex-row items-center justify-between w-full h-16 px-4 bg-gray-900 border-b border-gray-800">
+    <div class="flex flex-row items-center justify-between w-full h-16 px-4 bg-gray-900 border-b border-gray-800 max-h-screen">
         <div class="flex flex-row items-center justify-center w-8 h-8 mr-2 bg-gray-800 rounded-full">
             <Icon icon="ic:baseline-last-page" class="w-6 h-6 text-gray-400 font-black"/>
         </div>
@@ -37,7 +37,9 @@
 
     <!--Buttons-->
 
-    <slot/>
+    <div class="relative overflow-y-auto">
+        <slot/>
+    </div>
 </main>
 
 <div class="flex-col relative items-start w-full min-h-screen h-full hidden xl:flex max-w-xs mr-auto border-l border-gray-800">

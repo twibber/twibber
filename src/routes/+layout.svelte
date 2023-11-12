@@ -34,7 +34,7 @@
     <script src="https://www.google.com/recaptcha/api.js?render={env.PUBLIC_SITEKEY}" async defer></script>
 </svelte:head>
 
-<div class="flex flex-row min-h-screen w-full bg-gray-900 text-white font-medium">
+<div class="flex flex-row min-h-screen w-full bg-gray-900 text-white">
     <Toaster/>
     <Modal/>
 
@@ -50,7 +50,7 @@
                     <a href={link.href}
                        class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition">
                         <Icon icon={link.icon} class="w-6 h-6"/>
-                        <span class="text-md font-bold hidden xl:block">{link.title}</span>
+                        <span class="text-md font-medium hidden xl:block">{link.title}</span>
                     </a>
                 {/if}
             {/each}
@@ -61,15 +61,15 @@
                 <button on:click={() => setModal("login")}
                         class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition">
                     <Icon icon="bx:bx-log-in" class="w-6 h-6"/>
-                    <span class="text-md font-bold hidden xl:block">Login</span>
+                    <span class="text-md font-medium hidden xl:block">Login</span>
                 </button>
             {:else}
                 <!-- Profile Section -->
                 <a href="/me" class="w-full p-2 border border-gray-800 rounded-full font-medium flex items-center">
                     <div class="flex flex-row justify-between items-center w-full">
                         <div class="text-sm font-medium text-gray-300 group-hover:text-gray-900 pl-2">Logged in as <span
-                                class="font-bold">{data?.session?.connection?.user?.username}</span></div>
-                        <div class="text-sm font-bold rounded-full bg-gray-800 hover:bg-red-900 transition py-2 px-4">
+                                class="font-semibold">{data?.session?.connection?.user?.username}</span></div>
+                        <div class="text-sm font-medium rounded-full bg-gray-800 hover:bg-red-900 transition py-2 px-4">
                             Logout
                         </div>
                     </div>
