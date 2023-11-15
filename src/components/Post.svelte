@@ -2,7 +2,9 @@
 	import sanitizeHtml from 'sanitize-html';
 	import {marked} from 'marked';
 
-	function timeSince(date) {
+	function timeSince(postDate) {
+		const date = new Date(postDate);
+
 		const currentTime = new Date();
 		let elapsedSeconds = Math.floor((currentTime.getTime() - date.getTime()) / 1000);
 
@@ -22,38 +24,9 @@
 		}
 	}
 
-	const content = `Test Markdown
-# Heading 1
-## Heading 2
-### Heading 3
+	export let post;
 
-*Italic*
-
-**Bold**
-
-***Bold Italic***
-
-
-[Link](https://google.com)
-
-![Image](https://via.placeholder.com/150)
-
-\`\`\`javascript
-console.log("Hello World");
-\`\`\`
-
-~~Strikethrough~~
-
-- Unordered
-- List
-
-1. Ordered
-2. List
-
-> Blockquote
-`;
-
-	let sanitizedContent = sanitizeHtml(marked(content));
+	let sanitizedContent = sanitizeHtml(marked(post.content));
 </script>
 
 <li class="overflow-hidden shadow flex flex-col w-full bg-gray-950 rounded">
@@ -62,11 +35,11 @@ console.log("Hello World");
              src="https://via.placeholder.com/150"
              alt={""}>-->
         <div class="flex flex-col">
-            <div class="text-white font-medium">User</div>
-            <div class="text-gray-400 font-medium text-xs">@username</div>
+            <div class="text-white font-medium">{post?.user?.display_name}</div>
+            <div class="text-gray-400 font-medium text-xs">@{post?.user?.username}</div>
         </div>
         <div class="flex-grow"></div>
-        <div class="text-gray-400 text-xs h-full">{timeSince(new Date())}</div>
+        <div class="text-gray-400 text-xs h-full">{timeSince(post?.created_at)}</div>
     </div>
     <hr class="border-gray-800">
     <div class="p-4 text-sm font-medium text-font">

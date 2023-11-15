@@ -3,8 +3,6 @@
 	import Icon from "@iconify/svelte";
 	import {setModal} from "$lib/modals.js";
 	import {page} from "$app/stores";
-	import {request} from "$lib/request.js";
-	import {goto, invalidateAll} from "$app/navigation";
 
 	export let title = "";
 	export let buttons = []
@@ -52,18 +50,10 @@
                     <div class="text-sm font-medium text-gray-300 group-hover:text-gray-900 pl-2">Logged in as <span
                             class="font-semibold">{$page.data?.session?.connection?.user?.username}</span></div>
                 </a>
-                <button on:click={() => request({
-                                            method: 'GET',
-                                            url: '/auth/logout',
-                                            fetchHandler: fetch,
-                                        })
-                                        .catch(() => invalidateAll().then(() => goto('/')))
-                                        .then(() => invalidateAll().then(() => goto('/')))
-                                 }
-                        class="text-sm font-medium rounded-full bg-gray-800 hover:bg-red-900 transition py-2 px-4"
-                >
+                <a href={`${env.PUBLIC_API_URL}/auth/logout`}
+                   class="text-sm font-medium rounded-full bg-gray-800 hover:bg-red-900 transition py-2 px-4">
                     Logout
-                </button>
+                </a>
             </div>
         {/if}
     </nav>

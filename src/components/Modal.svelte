@@ -3,6 +3,7 @@
 
 	import Login from "$components/Modal/Login.svelte";
 	import Register from "$components/Modal/Register.svelte";
+	import Verify from "$components/Modal/Verify.svelte";
 </script>
 
 <svelte:window
@@ -18,5 +19,7 @@
         <Login/>
     {:else if $modal?.modal === 'register'}
         <Register/>
+    {:else if $modal?.modal === 'verify'}
+        <Verify/>
     {/if}
 {/if}
