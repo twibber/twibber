@@ -1,11 +1,22 @@
-<script lang="ts">
+<script>
+	import {onMount} from 'svelte';
 	import sanitizeHtml from 'sanitize-html';
 	import {marked} from 'marked';
 
+	let currentTime = new Date();
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			currentTime = new Date();
+		}, 1000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	});
+
 	function timeSince(postDate) {
 		const date = new Date(postDate);
-
-		const currentTime = new Date();
 		let elapsedSeconds = Math.floor((currentTime.getTime() - date.getTime()) / 1000);
 
 		const intervals = [
@@ -15,7 +26,7 @@
 			{seconds: 3600, name: "h"},
 			{seconds: 60, name: "m"},
 			{seconds: 1, name: "s"},
-		]
+		];
 
 		for (const interval of intervals) {
 			if (elapsedSeconds >= interval.seconds) {
