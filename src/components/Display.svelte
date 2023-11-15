@@ -40,21 +40,26 @@
         {#if !$page.data?.session}
             <button on:click={() => setModal("login")}
                     class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition">
-                <Icon icon="bx:bx-log-in" class="w-6 h-6"/>
+                <Icon icon="material-symbols:key-outline" class="w-6 h-6"/>
                 <span class="text-md font-medium hidden xl:block">Login</span>
             </button>
         {:else}
             <!-- Profile Section -->
-            <div class="w-full p-2 border border-gray-800 rounded-full font-medium flex items-center">
+            <div class="w-full p-2 border border-gray-800 rounded-full font-medium items-center hidden xl:flex">
                 <a href="/me" class="flex flex-row justify-between items-center w-full">
                     <div class="text-sm font-medium text-gray-300 group-hover:text-gray-900 pl-2">Logged in as <span
                             class="font-semibold">{$page.data?.session?.connection?.user?.username}</span></div>
                 </a>
                 <a href={`${env.PUBLIC_API_URL}/auth/logout`}
-                   class="text-sm font-medium rounded-full bg-gray-800 hover:bg-red-900 transition py-2 px-4">
+                   class="text-sm font-medium rounded-full bg-gray-800 hover:bg-red-900 transition py-1.5 px-4">
                     Logout
                 </a>
             </div>
+            <a href={`${env.PUBLIC_API_URL}/auth/logout`}
+                    class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition xl:hidden">
+                <Icon icon="material-symbols:logout-sharp" class="w-6 h-6"/>
+                <span class="text-md font-medium hidden xl:block">Logout</span>
+            </a>
         {/if}
     </nav>
 </div>
