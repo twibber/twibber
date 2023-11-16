@@ -15,7 +15,7 @@
 			body: {
 				content,
 			},
-			captcha: "login",
+			captcha: "post",
 		}).then((res) => {
 			if (res?.body?.success) {
 				content = "";

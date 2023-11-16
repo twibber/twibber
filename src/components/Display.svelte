@@ -3,6 +3,7 @@
 	import Icon from "@iconify/svelte";
 	import {setModal} from "$lib/modals.js";
 	import {page} from "$app/stores";
+  import { logout } from "$lib/buttons.js";
 
 	export let title = "";
 	export let buttons = []
@@ -50,16 +51,18 @@
                     <div class="text-sm font-medium text-gray-300 group-hover:text-gray-900 pl-2">Logged in as <span
                             class="font-semibold">{$page.data?.session?.connection?.user?.username}</span></div>
                 </a>
-                <a href={`${env.PUBLIC_API_URL}/auth/logout`}
+                <button on:click|preventDefault={logout}
+                        type="button"
                    class="text-sm font-medium rounded-full bg-gray-800 hover:bg-red-900 transition py-1.5 px-4">
                     Logout
-                </a>
+                </button>
             </div>
-            <a href={`${env.PUBLIC_API_URL}/auth/logout`}
+            <button on:click|preventDefault={logout}
+               type="button"
                     class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition xl:hidden">
                 <Icon icon="material-symbols:logout-sharp" class="w-6 h-6"/>
                 <span class="text-md font-medium hidden xl:block">Logout</span>
-            </a>
+            </button>
         {/if}
     </nav>
 </div>
