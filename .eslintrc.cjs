@@ -6,7 +6,7 @@ module.exports = {
 		'plugin:svelte/recommended'
 	],
 	plugins: [
-		'svelte4'
+		'svelte'
 	],
 	overrides: [
 		{
