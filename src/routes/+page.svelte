@@ -31,9 +31,9 @@
 <Display
         title="Feed"
 >
-    {#if data.session}
+    {#if data?.session}
         <form on:submit|preventDefault={handlePostCreate} class="flex flex-col border-b border-gray-800 p-4 w-full">
-            <textarea bind:value={content} type="text"
+            <textarea bind:value={content}
                       class="w-full rounded-md bg-gray-950 text-gray-200 p-4 focus:ring-0 focus:outline-none border-2 border-gray-900 focus:border-blue-900"
                       placeholder="Tweeb your mind..."/>
             <div class="flex flex-row justify-end items-center gap-2">
@@ -46,7 +46,7 @@
 
 
     <ul role="list" class="space-y-3 p-4">
-        {#each data?.posts as post (post.id)}
+        {#each data?.posts || [] as post (post.id)}
             <Post {post}/>
         {/each}
     </ul>
