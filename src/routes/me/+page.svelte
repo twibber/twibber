@@ -8,5 +8,4 @@
         title={"Profile"}
 >
     <pre>{JSON.stringify(data?.session?.connection, null, 2)}</pre>
-
 </Display>

@@ -85,7 +85,7 @@
     </div>
 
     <slot/>
-    
+
     <div class="flex-col relative items-start w-full min-h-screen h-full hidden xl:flex max-w-xs mr-auto border-l border-gray-800">
 
     </div>

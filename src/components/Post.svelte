@@ -40,7 +40,13 @@
   let sanitizedContent;
 
   $: if (post) {
-    sanitizedContent = sanitizeHtml(marked(post.content));
+    sanitizedContent = sanitizeHtml(marked(post?.content), {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        img: ["src", "alt", "width", "height"]
+      }
+    });
   }
 </script>
 
