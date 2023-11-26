@@ -1,74 +1,79 @@
 <script>
-  import { browser } from "$app/environment";
-  import sanitizeHtml from "sanitize-html";
-  import { marked } from "marked";
+	import { browser } from "$app/environment";
+	import sanitizeHtml from "sanitize-html";
+	import { marked } from "marked";
+	import { page } from "$app/stores";
+	import {toast} from "$lib/toaster.js";
 
-  let currentTime = new Date();
-  if (browser) {
-    setInterval(() => {
-      currentTime = new Date();
-    }, 1000);
-  }
+	let currentTime = new Date();
 
-  let formattedTime;
-  let fullDate;
+	// Update the current time every second if in a browser environment
+	if (browser) {
+		setInterval(() => {
+			currentTime = new Date();
+		}, 1000);
+	}
 
-  $: currentTime, formattedTime = post ? timeSince(post?.created) : "";
+	let formattedTime;
+	let fullDate;
 
-  function timeSince(postDate) {
-    const date = new Date(postDate);
-	fullDate = date.toLocaleString();
+	// Reactive statement to update time since the post was created
+	$: formattedTime = post ? timeSince(post.created) : "";
+	$: fullDate = post ? new Date(post.created).toLocaleString() : "";
 
-    let elapsedSeconds = Math.floor((currentTime.getTime() - date.getTime()) / 1000);
+	// Function to calculate the elapsed time in a compact format
+	function timeSince(dateString) {
+		const date = new Date(dateString);
+		let elapsedSeconds = Math.floor((currentTime - date) / 1000);
+		const intervals = [
+			{ seconds: 31536000, name: "year" },
+			{ seconds: 2592000, name: "month" },
+			{ seconds: 86400, name: "day" },
+			{ seconds: 3600, name: "hour" },
+			{ seconds: 60, name: "minute" },
+			{ seconds: 1, name: "second" }
+		];
 
-    const intervals = [
-      { seconds: 31536000, name: "y" },
-      { seconds: 2592000, name: "mo" },
-      { seconds: 86400, name: "d" },
-      { seconds: 3600, name: "h" },
-      { seconds: 60, name: "m" },
-      { seconds: 1, name: "s" }
-    ];
+		for (const interval of intervals) {
+			if (elapsedSeconds >= interval.seconds) {
+				const count = Math.floor(elapsedSeconds / interval.seconds);
+				return `${count} ${interval.name}${count !== 1 ? 's' : ''} ago`;
+			}
+		}
+		return "Just now";
+	}
 
-    for (const interval of intervals) {
-      if (elapsedSeconds >= interval.seconds) {
-        const count = Math.floor(elapsedSeconds / interval.seconds);
-        return `${count}${interval.name}`;
-      }
-    }
-    return "0s";
-  }
+	export let post;
+	let sanitizedContent;
 
-  export let post;
-  let sanitizedContent;
-
-  $: if (post) {
-    sanitizedContent = sanitizeHtml(marked(post?.content), {
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-      allowedAttributes: {
-        ...sanitizeHtml.defaults.allowedAttributes,
-        img: ["src", "alt", "width", "height"]
-      }
-    });
-  }
-
-  console.log(post);
+	// Reactive statement to sanitize and render the post content
+	$: if (post) {
+		sanitizedContent = sanitizeHtml(marked(post.content), {
+			allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+			allowedAttributes: {
+				...sanitizeHtml.defaults.allowedAttributes,
+				img: ["src", "alt", "width", "height"]
+			}
+		});
+	}
 </script>
 
-<li class="overflow-hidden shadow flex flex-col w-full bg-gray-950 rounded">
-  <div class="flex flex-row items-center gap-4 h-16 p-3">
-    <!--<img class="w-10 h-10 rounded-full"
-         src="https://via.placeholder.com/150"
-         alt={""}>-->
-    <div class="flex flex-col">
-      <div class="text-white font-medium">{post?.user?.display_name}</div>
-      <div class="text-gray-400 font-medium text-xs">@{post?.user?.username}</div>
+<li class="bg-gray-800 rounded-md overflow-hidden">
+    <div class="flex items-center justify-between p-2 border-b border-gray-700">
+        <a
+                href={`/profile/${post?.user?.username}`}
+                class="flex items-center justify-center gap-2 hover:bg-gray-900 pl-2 py-2 w-48 rounded-md">
+            <img class="w-12 h-12 rounded-full border-2 border-gray-600"
+                 src={post?.user?.avatar || "https://via.placeholder.com/100"}
+                 alt="User avatar" />
+            <div class="w-full">
+                <div class="font-semibold text-white truncate">{post?.user?.display_name}</div>
+                <div class="text-sm text-gray-400">@{post?.user?.username}</div>
+            </div>
+        </a>
+        <div class="text-sm text-gray-400 pr-2" title={fullDate}>{formattedTime}</div>
     </div>
-    <div class="flex-grow"></div>
-    <div class="text-gray-400 text-xs h-full cursor-default" title={fullDate}>{formattedTime}</div>
-  </div>
-  <hr class="border-gray-800">
-  <div class="p-4 text-sm font-medium text-font">
-    {@html sanitizedContent}
-  </div>
+    <div class="p-4 text-gray-300">
+        {@html sanitizedContent}
+    </div>
 </li>

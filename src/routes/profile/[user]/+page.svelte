@@ -10,13 +10,13 @@
         title={"Profile"}
 >
     <div class="relative w-full">
-        <img src={data?.profile?.profile?.user?.banner || "https://open-placeholder.vercel.app/1920x1080"}
+        <img src={data?.profile?.user?.banner || "https://open-placeholder.vercel.app/1920x1080"}
              alt="banner"
              class="w-full h-64 object-cover object-center bg-gray-950 m-auto"/>
         <!--Rounded image-->
         <div class="absolute bottom-0 left-0 w-full px-4">
             <img class="bg-gray-800 w-32 h-32 border-4 border-gray-900 -mb-16 m-auto object-cover object-center"
-                 src={data?.profile?.profile?.user?.avatar || "https://open-placeholder.vercel.app/100"}
+                 src={data?.profile?.user?.avatar || "https://open-placeholder.vercel.app/100"}
                  alt="avatar"/>
         </div>
     </div>
