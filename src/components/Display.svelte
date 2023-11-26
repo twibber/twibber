@@ -1,16 +1,9 @@
 <script>
 	import {env} from "$env/dynamic/public";
 	import Icon from "@iconify/svelte";
-	import {setModal} from "$lib/modals.js";
-	import {page} from "$app/stores";
-  import { logout } from "$lib/buttons.js";
 
 	export let title = "";
 	export let buttons = []
-
-    $: page.subscribe((value) => {
-        console.dir(value, {depth: null});
-    });
 </script>
 
 <svelte:head>
@@ -29,11 +22,13 @@
             {#each buttons as button}
                 <div class="ml-2">
                     {#if button?.href}
-                        <a href={button.href} class="flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full text-gray-400 hover:bg-gray-700 p-1">
+                        <a href={button.href}
+                           class="flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full text-gray-400 hover:bg-gray-700 p-1">
                             <Icon icon={button.icon} class="w-5 h-5"/>
                         </a>
                     {:else}
-                        <button on:click={button.action} class="flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full text-gray-400 hover:bg-gray-700 p-1">
+                        <button on:click={button.action}
+                                class="flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full text-gray-400 hover:bg-gray-700 p-1">
                             <Icon icon={button.icon} class="w-5 h-5"/>
                         </button>
                     {/if}
