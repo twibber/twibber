@@ -11,11 +11,14 @@
   }
 
   let formattedTime;
+  let fullDate;
 
   $: currentTime, formattedTime = post ? timeSince(post?.created_at) : "";
 
   function timeSince(postDate) {
     const date = new Date(postDate);
+	fullDate = date.toLocaleString();
+
     let elapsedSeconds = Math.floor((currentTime.getTime() - date.getTime()) / 1000);
 
     const intervals = [
@@ -60,7 +63,7 @@
       <div class="text-gray-400 font-medium text-xs">@{post?.user?.username}</div>
     </div>
     <div class="flex-grow"></div>
-    <div class="text-gray-400 text-xs h-full">{formattedTime}</div>
+    <div class="text-gray-400 text-xs h-full cursor-default" title={fullDate}>{formattedTime}</div>
   </div>
   <hr class="border-gray-800">
   <div class="p-4 text-sm font-medium text-font">

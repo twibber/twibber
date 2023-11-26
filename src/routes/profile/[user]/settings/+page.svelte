@@ -1,6 +1,5 @@
 <script>
 	import Display from "$components/Display.svelte";
-	import Input from "$components/Input.svelte";
 
 	export let data;
 </script>
@@ -8,7 +7,7 @@
 <Display
         title={"Settings"}
 >
-    <Input>
-
-    </Input>
+    <div class="text-center text-gray-500 py-8">
+        This page has not yet been implemented.
+    </div>
 </Display>

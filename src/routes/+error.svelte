@@ -12,7 +12,7 @@
                 <h1 class="text-2xl font-bold text-gray-200">{$page?.error?.data?.code || $page?.error?.message}</h1>
                 <p class="text-gray-500">{$page?.error?.data?.message || $page?.error?.message}</p>
             </div>
-            <pre class="text-sm text-gray-300 bg-white/[4%] rounded border-2 border-indigo-500 p-4 overflow-y-auto">{JSON.stringify($page, null, 2)}</pre>
+            <pre class="text-sm text-gray-300 bg-white/[4%] rounded border-2 border-red-900 p-4 overflow-y-auto">{JSON.stringify($page, null, 2)}</pre>
         </div>
     </div>
 </Display>

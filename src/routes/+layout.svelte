@@ -13,14 +13,16 @@
 	import {logout} from "$lib/buttons.js";
 	import Icon from "@iconify/svelte";
 
+	export let data;
+
 	const links = [
 		{title: "Home", icon: "material-symbols:home-outline", href: "/"},
-		{title: "Profile", icon: "material-symbols:person-outline", href: "/me", auth: true},
-		{title: "Settings", icon: "material-symbols:settings-outline", href: "/me/settings", auth: true}
+		{title: "Profile", icon: "material-symbols:person-outline", href: `/profile/${data?.session?.connection?.user?.username}`, auth: true},
+		{title: "Settings", icon: "material-symbols:settings-outline", href: `/profile/${data?.session?.connection?.user?.username}/settings`, auth: true}
 	];
 
 	NProgress.configure({
-		minimum: 0.16,
+		minimum: 0.30,
 		showSpinner: false
 	});
 
