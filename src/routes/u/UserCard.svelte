@@ -1,5 +1,4 @@
 <script>
-	import Icon from "@iconify/svelte";
 	import {toast} from "$lib/toaster.js";
 	export let user;
 

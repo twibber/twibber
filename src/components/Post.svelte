@@ -65,6 +65,19 @@
 		toast.error("Not implemented yet!");
 	}
 
+	async function handleLike() {
+		request({
+			method: 'POST',
+			url: '/posts/' + post.id,
+		}).then((res) => {
+			if (res?.body?.success) {
+				toast.success("Post deleted!");
+				invalidate(getURL("/posts"));
+				invalidate(getURL("/u/" + post.user.username));
+			}
+		}).catch(handleErrors);
+	}
+
 	async function handleDelete() {
 		request({
 			method: 'DELETE',
@@ -80,54 +93,56 @@
 </script>
 
 <li class="bg-gray-800 rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-    <div class="flex items-center justify-between p-2 border-b border-gray-700">
-        <!-- User Info -->
-        <a href={`/u/${post?.user?.username}`}
-           class="flex items-center gap-3 hover:bg-gray-900 p-2 rounded-md transition-colors duration-300">
-            <img class="w-12 h-12 rounded-full border-2 border-gray-600"
-                 src={post?.user?.avatar || "https://via.placeholder.com/100"}
-                 alt="User avatar"/>
-            <div>
-                <div class="font-semibold text-white">{post?.user?.display_name}</div>
-                <div class="text-sm text-gray-400">@{post?.user?.username}</div>
+    <a href={`/u/${post?.user?.username}`}
+       class="block hover:bg-gray-900/[15%] transition-colors duration-300">
+        <div class="flex items-center justify-between p-2 border-b border-gray-700">
+            <!-- User Info -->
+            <div class="flex items-center gap-3">
+                <img class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-600"
+                     src={post?.user?.avatar || "https://via.placeholder.com/100"}
+                     alt="User avatar"/>
+                <div class="truncate">
+                    <div class="font-semibold text-white text-xs sm:text-sm">{post?.user?.display_name}</div>
+                    <div class="text-xs text-gray-400">@{post?.user?.username}</div>
+                </div>
             </div>
-        </a>
-        <!-- Post Time -->
-        <div class="text-sm text-gray-400 pr-2" title={fullDate}>{formattedTime}</div>
-    </div>
+            <!-- Post Time -->
+            <div class="text-xs sm:text-sm text-gray-400" title={fullDate}>{formattedTime}</div>
+        </div>
+    </a>
     <!-- Post Content -->
-    <div class="p-4 text-gray-300 border-b border-gray-700 text-md md:text-base">
+    <div class="p-4 text-gray-300 border-b border-gray-700 text-sm md:text-md lg:text-base">
         {@html sanitizedContent}
     </div>
     <!-- Interaction Buttons -->
-    <div class="flex justify-between items-center px-4 py-2 bg-gray-800 rounded-b-lg">
+    <div class="flex flex-wrap justify-between items-center px-4 py-2 bg-gray-800 rounded-b-lg">
         <div class="flex gap-2">
             <!-- Like Button -->
             <button on:click={notImpl}
-                    class="flex items-center gap-1 text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700 ">
+                    class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700 ">
                 <Icon icon="material-symbols:thumb-up-outline" class="w-5 h-5 text-current"/>
-                <span class="hidden md:inline">Like</span>
+                <span class="text-xs hidden sm:inline">Like</span>
             </button>
             <!-- Repost Button -->
             <button on:click={notImpl}
-                    class="flex items-center gap-1 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+                    class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:repeat" class="w-5 h-5 text-current"/>
-                <span class="hidden md:inline">Repost</span>
+                <span class="text-xs hidden sm:inline">Repost</span>
             </button>
             <!-- Replies Button -->
             <button on:click={notImpl}
-                    class="flex items-center gap-1 text-gray-300 hover:text-yellow-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+                    class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-yellow-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:reply" class="w-5 h-5 text-current"/>
-                <span class="hidden md:inline">Replies</span>
+                <span class="text-xs hidden sm:inline">Replies</span>
             </button>
         </div>
         <!-- Delete Button (Conditional) -->
         {#if $page?.session?.connection?.user?.admin || (post?.user?.id === $page?.data?.session?.connection?.user?.id && secondsElapsed < 300)}
             <div class="flex-grow"></div>
             <button on:click={handleDelete}
-                    class="flex items-center gap-1 text-gray-300 hover:text-red-500 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+                    class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-red-500 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:delete-outline" class="w-5 h-5 text-current"/>
-                <span class="hidden md:inline">Delete</span>
+                <span class="text-xs hidden sm:inline">Delete</span>
             </button>
         {/if}
     </div>
