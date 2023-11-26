@@ -7,7 +7,7 @@
 </script>
 
 <Display
-        title={"Profile"}
+        title={data?.profile?.user?.username || "Profile"}
 >
     <div class="relative w-full">
         <img src={data?.profile?.user?.banner || "https://open-placeholder.vercel.app/1920x1080"}
@@ -48,7 +48,7 @@
                     Unfollow
                 </button>
             {:else}
-                <button class="btn bg-blue-500 hover:bg-blue-600">
+                <button class="btn bg-blue-600 hover:bg-blue-700">
                     Follow
                 </button>
             {/if}

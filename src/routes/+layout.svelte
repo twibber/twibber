@@ -17,8 +17,9 @@
 
 	const links = [
 		{title: "Home", icon: "material-symbols:home-outline", href: "/"},
-		{title: "Profile", icon: "material-symbols:person-outline", href: `/profile/${data?.session?.connection?.user?.username}`, auth: true},
-		{title: "Settings", icon: "material-symbols:settings-outline", href: `/profile/${data?.session?.connection?.user?.username}/settings`, auth: true}
+		{title: "Users", icon: "material-symbols:group-outline", href: `/u`, auth: true},
+		{title: "Profile", icon: "material-symbols:person-outline", href: `/u/${data?.session?.connection?.user?.username}`, auth: true},
+		{title: "Settings", icon: "material-symbols:settings-outline", href: `/u/${data?.session?.connection?.user?.username}/settings`, auth: true}
 	];
 
 	NProgress.configure({
@@ -66,7 +67,7 @@
             {:else}
                 <!-- Profile Section -->
                 <div class="w-full p-2 border border-gray-800 rounded-full font-medium items-center hidden xl:flex">
-                    <a href="/me" class="flex flex-row justify-between items-center w-full">
+                    <a href="/u/{$page.data?.session?.connection?.user?.username}" class="flex flex-row justify-between items-center w-full">
                         <div class="text-sm font-medium text-gray-300 group-hover:text-gray-900 pl-2">Logged in as <span
                                 class="font-semibold">{$page.data?.session?.connection?.user?.username}</span></div>
                     </a>
