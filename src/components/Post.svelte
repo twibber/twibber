@@ -13,7 +13,7 @@
   let formattedTime;
   let fullDate;
 
-  $: currentTime, formattedTime = post ? timeSince(post?.created_at) : "";
+  $: currentTime, formattedTime = post ? timeSince(post?.created) : "";
 
   function timeSince(postDate) {
     const date = new Date(postDate);
@@ -51,6 +51,8 @@
       }
     });
   }
+
+  console.log(post);
 </script>
 
 <li class="overflow-hidden shadow flex flex-col w-full bg-gray-950 rounded">
