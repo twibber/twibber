@@ -1,17 +1,15 @@
 <script>
-	import { browser } from "$app/environment";
+	import {browser} from "$app/environment";
 	import sanitizeHtml from "sanitize-html";
-	import { marked } from "marked";
-	import { page } from "$app/stores";
-	import {toast} from "$lib/toaster.js";
+	import {marked} from "marked";
+	import {page} from "$app/stores";
 	import Icon from "@iconify/svelte";
-	import {getURL, request} from "$lib/request.js";
-	import {invalidate} from "$app/navigation";
+	import {toast} from "$lib/toaster.js";
 	import {handleErrors} from "$lib/errors.js";
+	import {request, getURL} from "$lib/request.js";
+	import {invalidate} from "$app/navigation";
 
 	let currentTime = new Date();
-
-	// Update the current time every second if in a browser environment
 	if (browser) {
 		setInterval(() => {
 			currentTime = new Date();
@@ -19,40 +17,42 @@
 	}
 
 	let formattedTime;
+	let secondsElapsed = 0;
 	let fullDate;
 
-	// Reactive statement to update time since the post was created
-	$: formattedTime = post ? timeSince(post.created) : "";
-	$: fullDate = post ? new Date(post.created).toLocaleString() : "";
+	$: currentTime, formattedTime = post ? timeSince(post?.created) : "";
+	$: secondsElapsed = post ? Math.floor((currentTime.getTime() - new Date(post?.created).getTime()) / 1000) : 0;
 
-	// Function to calculate the elapsed time in a compact format
-	function timeSince(dateString) {
-		const date = new Date(dateString);
-		let elapsedSeconds = Math.floor((currentTime - date) / 1000);
+	function timeSince(postDate) {
+		const date = new Date(postDate);
+		fullDate = date.toLocaleString();
+
+		let elapsedSeconds = Math.floor((currentTime.getTime() - date.getTime()) / 1000);
+
 		const intervals = [
-			{ seconds: 31536000, name: "year" },
-			{ seconds: 2592000, name: "month" },
-			{ seconds: 86400, name: "day" },
-			{ seconds: 3600, name: "hour" },
-			{ seconds: 60, name: "minute" },
-			{ seconds: 1, name: "second" }
+			{seconds: 31536000, name: "y"},
+			{seconds: 2592000, name: "mo"},
+			{seconds: 86400, name: "d"},
+			{seconds: 3600, name: "h"},
+			{seconds: 60, name: "m"},
+			{seconds: 1, name: "s"}
 		];
 
 		for (const interval of intervals) {
 			if (elapsedSeconds >= interval.seconds) {
 				const count = Math.floor(elapsedSeconds / interval.seconds);
-				return `${count} ${interval.name}${count !== 1 ? 's' : ''} ago`;
+				return `${count}${interval.name}`;
 			}
 		}
-		return "Just now";
+		return "0s";
 	}
+
 
 	export let post;
 	let sanitizedContent;
 
-	// Reactive statement to sanitize and render the post content
 	$: if (post) {
-		sanitizedContent = sanitizeHtml(marked(post.content), {
+		sanitizedContent = sanitizeHtml(marked(post?.content), {
 			allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
 			allowedAttributes: {
 				...sanitizeHtml.defaults.allowedAttributes,
@@ -62,8 +62,8 @@
 	}
 
 	function notImpl() {
-        toast.error("Not implemented yet!");
-    }
+		toast.error("Not implemented yet!");
+	}
 
 	async function handleDelete() {
 		request({
@@ -86,7 +86,7 @@
            class="flex items-center gap-3 hover:bg-gray-900 p-2 rounded-md transition-colors duration-300">
             <img class="w-12 h-12 rounded-full border-2 border-gray-600"
                  src={post?.user?.avatar || "https://via.placeholder.com/100"}
-                 alt="User avatar" />
+                 alt="User avatar"/>
             <div>
                 <div class="font-semibold text-white">{post?.user?.display_name}</div>
                 <div class="text-sm text-gray-400">@{post?.user?.username}</div>
@@ -103,26 +103,30 @@
     <div class="flex justify-between items-center px-4 py-2 bg-gray-800 rounded-b-lg">
         <div class="flex gap-2">
             <!-- Like Button -->
-            <button on:click={notImpl} class="flex items-center gap-1 text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+            <button on:click={notImpl}
+                    class="flex items-center gap-1 text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:thumb-up-outline" class="w-5 h-5 text-current"/>
                 <span>Like</span>
                 <span class="likes-count text-sm">(0)</span>
             </button>
             <!-- Repost Button -->
-            <button on:click={notImpl} class="flex items-center gap-1 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+            <button on:click={notImpl}
+                    class="flex items-center gap-1 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:repeat" class="w-5 h-5 text-current"/>
                 <span>Repost</span>
             </button>
             <!-- Replies Button -->
-            <button on:click={notImpl} class="flex items-center gap-1 text-gray-300 hover:text-yellow-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+            <button on:click={notImpl}
+                    class="flex items-center gap-1 text-gray-300 hover:text-yellow-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:reply" class="w-5 h-5 text-current"/>
                 <span>Replies</span>
             </button>
         </div>
         <!-- Delete Button (Conditional) -->
-        {#if post?.user?.id === $page?.data?.session?.connection?.user?.id}
+        {#if post?.user?.id === $page?.data?.session?.connection?.user?.id && secondsElapsed < 300}
             <div class="flex-grow"></div>
-            <button on:click={handleDelete} class="flex items-center gap-1 text-gray-300 hover:text-red-500 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+            <button on:click={handleDelete}
+                    class="flex items-center gap-1 text-gray-300 hover:text-red-500 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:delete-outline" class="w-5 h-5 text-current"/>
                 <span>Delete</span>
             </button>
