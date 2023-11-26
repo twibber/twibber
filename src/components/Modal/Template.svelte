@@ -12,7 +12,7 @@
 	const propIsEmpty = Object.keys($$slots)?.length === 0;
 </script>
 
-<form class="fixed top-0 left-0 z-10 flex h-screen w-screen items-center justify-center"
+<form class="fixed top-0 left-0 z-10 flex h-screen w-screen items-center justify-center px-6"
       on:submit|preventDefault={confirm?.handler}>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div

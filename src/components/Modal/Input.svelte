@@ -6,7 +6,6 @@
     let errorMessages = [];
 
     errors.subscribe((fields) => {
-
         errorMessages = fields.filter((field) => field.name === id).map((field) => field.errors[0]);
     });
 </script>

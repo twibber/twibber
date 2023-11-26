@@ -96,7 +96,7 @@
         <div class="text-sm text-gray-400 pr-2" title={fullDate}>{formattedTime}</div>
     </div>
     <!-- Post Content -->
-    <div class="p-4 text-gray-300 border-b border-gray-700">
+    <div class="p-4 text-gray-300 border-b border-gray-700 text-md md:text-base">
         {@html sanitizedContent}
     </div>
     <!-- Interaction Buttons -->
@@ -104,31 +104,30 @@
         <div class="flex gap-2">
             <!-- Like Button -->
             <button on:click={notImpl}
-                    class="flex items-center gap-1 text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
+                    class="flex items-center gap-1 text-gray-300 hover:text-blue-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700 ">
                 <Icon icon="material-symbols:thumb-up-outline" class="w-5 h-5 text-current"/>
-                <span>Like</span>
-                <span class="likes-count text-sm">(0)</span>
+                <span class="hidden md:inline">Like</span>
             </button>
             <!-- Repost Button -->
             <button on:click={notImpl}
                     class="flex items-center gap-1 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:repeat" class="w-5 h-5 text-current"/>
-                <span>Repost</span>
+                <span class="hidden md:inline">Repost</span>
             </button>
             <!-- Replies Button -->
             <button on:click={notImpl}
                     class="flex items-center gap-1 text-gray-300 hover:text-yellow-400 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:reply" class="w-5 h-5 text-current"/>
-                <span>Replies</span>
+                <span class="hidden md:inline">Replies</span>
             </button>
         </div>
         <!-- Delete Button (Conditional) -->
-        {#if post?.user?.id === $page?.data?.session?.connection?.user?.id && secondsElapsed < 300}
+        {#if $page?.session?.connection?.user?.admin || (post?.user?.id === $page?.data?.session?.connection?.user?.id && secondsElapsed < 300)}
             <div class="flex-grow"></div>
             <button on:click={handleDelete}
                     class="flex items-center gap-1 text-gray-300 hover:text-red-500 transition duration-150 ease-in-out px-3 py-2 rounded-lg hover:bg-gray-700">
                 <Icon icon="material-symbols:delete-outline" class="w-5 h-5 text-current"/>
-                <span>Delete</span>
+                <span class="hidden md:inline">Delete</span>
             </button>
         {/if}
     </div>
