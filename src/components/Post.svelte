@@ -6,103 +6,101 @@
 	import Icon from "@iconify/svelte";
 	import {toast} from "$lib/toaster.js";
 	import {handleErrors} from "$lib/errors.js";
-	import {request, getURL} from "$lib/request.js";
+	import {getURL, request} from "$lib/request.js";
 	import {invalidate} from "$app/navigation";
+	import {onMount} from "svelte";
 
+	export let post;
 	let currentTime = new Date();
-	if (browser) {
-		setInterval(() => {
-			currentTime = new Date();
-		}, 1000);
-	}
-
-	let formattedTime;
+	let sanitizedContent = '';
+	let fullDate = '';
+	let formattedTime = '';
 	let secondsElapsed = 0;
-	let fullDate;
 
-	$: currentTime, formattedTime = post ? timeSince(post?.created) : "";
-	$: secondsElapsed = post ? Math.floor((currentTime.getTime() - new Date(post?.created).getTime()) / 1000) : 0;
+	const timeIntervals = [
+		{seconds: 31536000, name: "y"},
+		{seconds: 2592000, name: "mo"},
+		{seconds: 86400, name: "d"},
+		{seconds: 3600, name: "h"},
+		{seconds: 60, name: "m"},
+		{seconds: 1, name: "s"}
+	];
 
-	function timeSince(postDate) {
-		const date = new Date(postDate);
-		fullDate = date.toLocaleString();
+	const updateTime = () => {
+		currentTime = new Date();
+		if (post?.created) {
+			secondsElapsed = Math.floor((currentTime.getTime() - new Date(post.created).getTime()) / 1000);
+			formattedTime = formatElapsedTime(secondsElapsed);
+			fullDate = new Date(post.created).toLocaleString();
+		}
+	};
 
-		let elapsedSeconds = Math.floor((currentTime.getTime() - date.getTime()) / 1000);
-
-		const intervals = [
-			{seconds: 31536000, name: "y"},
-			{seconds: 2592000, name: "mo"},
-			{seconds: 86400, name: "d"},
-			{seconds: 3600, name: "h"},
-			{seconds: 60, name: "m"},
-			{seconds: 1, name: "s"}
-		];
-
-		for (const interval of intervals) {
+	const formatElapsedTime = (elapsedSeconds) => {
+		for (const interval of timeIntervals) {
 			if (elapsedSeconds >= interval.seconds) {
 				const count = Math.floor(elapsedSeconds / interval.seconds);
 				return `${count}${interval.name}`;
 			}
 		}
 		return "0s";
+	};
+
+	if (browser) {
+		setInterval(updateTime, 1000);
 	}
 
+	onMount(() => {
+		if (post) {
+			sanitizedContent = sanitizeHtml(marked(post.content), {
+				allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+				allowedAttributes: {
+					...sanitizeHtml.defaults.allowedAttributes,
+					img: ["src", "alt", "width", "height"]
+				}
+			});
+		}
+	});
 
-	export let post;
-	let sanitizedContent;
-
-	$: if (post) {
-		sanitizedContent = sanitizeHtml(marked(post?.content), {
-			allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-			allowedAttributes: {
-				...sanitizeHtml.defaults.allowedAttributes,
-				img: ["src", "alt", "width", "height"]
+	async function handleAction(action, successMessage) {
+		try {
+			const res = await request({method: action.method, url: '/posts/' + post.id + "/" + action.url || ""});
+			if (res?.body?.success) {
+				toast.success(successMessage);
+				await invalidate(getURL("/posts"));
+				await invalidate(getURL("/u/" + post.user.username));
 			}
-		});
+		} catch (error) {
+			handleErrors(error);
+		}
+	}
+
+	function handleDelete() {
+		handleAction({method: 'DELETE'}, "Post deleted!");
 	}
 
 	function notImpl() {
 		toast.error("Not implemented yet!");
 	}
-
-	async function handleLike() {
-		request({
-			method: 'POST',
-			url: '/posts/' + post.id,
-		}).then((res) => {
-			if (res?.body?.success) {
-				toast.success("Post deleted!");
-				invalidate(getURL("/posts"));
-				invalidate(getURL("/u/" + post.user.username));
-			}
-		}).catch(handleErrors);
-	}
-
-	async function handleDelete() {
-		request({
-			method: 'DELETE',
-			url: '/posts/' + post.id,
-		}).then((res) => {
-			if (res?.body?.success) {
-				toast.success("Post deleted!");
-				invalidate(getURL("/posts"));
-				invalidate(getURL("/u/" + post.user.username));
-			}
-		}).catch(handleErrors);
-	}
 </script>
+
 
 <li class="bg-gray-800 rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
     <a href={`/u/${post?.user?.username}`}
        class="block hover:bg-gray-900/[15%] transition-colors duration-300">
         <div class="flex items-center justify-between p-2 border-b border-gray-700">
             <!-- User Info -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 <img class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-600"
                      src={post?.user?.avatar || "https://via.placeholder.com/100"}
                      alt="User avatar"/>
                 <div class="truncate">
-                    <div class="font-semibold text-white text-xs sm:text-sm">{post?.user?.display_name}</div>
+                    <div class="font-semibold text-white text-xs sm:text-sm flex justify-center items-center flex-row gap-1">{post?.user?.display_name}
+                        {#if post?.user?.admin}
+                            <Icon icon="material-symbols:verified" class="w-4 h-4 text-yellow-500"/>
+                        {:else if post?.user?.verified_person}
+                            <Icon icon="material-symbols:verified" class="w-4 h-4 text-blue-500"/>
+                        {/if}
+                    </div>
                     <div class="text-xs text-gray-400">@{post?.user?.username}</div>
                 </div>
             </div>
