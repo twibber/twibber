@@ -6,21 +6,12 @@
 	import Modal from '$components/Modal.svelte';
 
 	import NProgress from "nprogress";
-	import {navigating, page} from "$app/stores";
+	import {navigating} from "$app/stores";
 
 	import {env} from "$env/dynamic/public";
 	import {setModal} from "$lib/modals.js";
 	import {logout} from "$lib/buttons.js";
 	import Icon from "@iconify/svelte";
-
-	export let data;
-
-	const links = [
-		{title: "Home", icon: "material-symbols:home-outline", href: "/"},
-		{title: "Users", icon: "material-symbols:group-outline", href: `/u`, auth: true},
-		{title: "Profile", icon: "material-symbols:person-outline", href: `/u/${data?.session?.connection?.user?.username}`, auth: true},
-		{title: "Settings", icon: "material-symbols:settings-outline", href: `/u/${data?.session?.connection?.user?.username}/settings`, auth: true}
-	];
 
 	NProgress.configure({
 		minimum: 0.30,
@@ -28,6 +19,33 @@
 	});
 
 	$: NProgress[$navigating ? 'start' : 'done']();
+
+	export let data;
+
+	const links = [
+		{
+			title: "Feed",
+			icon: "material-symbols:document-scanner-outline-sharp", // icon of posts
+			href: "/"
+		},
+		{
+			title: "Users",
+			icon: "material-symbols:group-outline",
+			href: `/u`
+		},
+		{
+			title: "Profile",
+			icon: "material-symbols:person-outline",
+			href: `/u/${data?.session?.connection?.user?.username}`,
+			auth: true
+		},
+		{
+			title: "Settings",
+			icon: "material-symbols:settings-outline",
+			href: `/u/${data?.session?.connection?.user?.username}/settings`,
+			auth: true
+		}
+	];
 </script>
 
 <svelte:head>
@@ -47,7 +65,7 @@
 
         <nav class="flex flex-col items-start justify-start w-full h-full p-4 gap-2 flex-grow">
             {#each links as link}
-                {#if !link.auth || !!$page.data.session === link.auth}
+                {#if !link.auth || !!data?.session === link.auth}
                     <a href={link.href}
                        class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition">
                         <Icon icon={link.icon} class="w-6 h-6"/>
@@ -58,7 +76,7 @@
 
             <div class="flex-grow"></div>
 
-            {#if !$page.data?.session}
+            {#if !data?.session}
                 <button on:click={() => setModal("login")}
                         class="flex flex-row gap-2 items-center w-full h-12 rounded-full bg-gray-900 border border-gray-800 hover:bg-gray-800 px-3 py-2 transition">
                     <Icon icon="material-symbols:key-outline" class="w-6 h-6"/>
@@ -67,9 +85,10 @@
             {:else}
                 <!-- Profile Section -->
                 <div class="w-full p-2 border border-gray-800 rounded-full font-medium items-center hidden xl:flex">
-                    <a href="/u/{$page.data?.session?.connection?.user?.username}" class="flex flex-row justify-between items-center w-full">
+                    <a href="/u/{data?.session?.connection?.user?.username}"
+                       class="flex flex-row justify-between items-center w-full">
                         <div class="text-sm font-medium text-gray-300 group-hover:text-gray-900 pl-2">Logged in as <span
-                                class="font-semibold">{$page.data?.session?.connection?.user?.username}</span></div>
+                                class="font-semibold">{data?.session?.connection?.user?.username}</span></div>
                     </a>
                     <button on:click|preventDefault={logout}
                             type="button"
