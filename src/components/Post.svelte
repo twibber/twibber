@@ -69,8 +69,9 @@
 			const res = await request({method: action.method, url: '/posts/' + post.id + action?.url ?? ""});
 			if (res?.body?.success) {
 				toast.success(successMessage);
-				await invalidate(getURL("/"));
-				await invalidate(getURL("/u/" + post.user.username));
+
+				void invalidate("profile")
+				void invalidate("posts")
 
 				// Optimistically update the post
 				if (action.method === 'DELETE' && action.url === '') {

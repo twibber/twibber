@@ -1,7 +1,9 @@
 import {request} from "$lib/request.js";
 import {handleErrorsLoad} from "$lib/errors.js";
 
-export const load = (async ({fetch, params}) => {
+export const load = (async ({fetch, params, depends}) => {
+	depends('profile');
+
 	return {
 		profile: {
 			user: await request({

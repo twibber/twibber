@@ -1,6 +1,8 @@
 import {request} from "$lib/request.js";
 
-export const load = (async ({fetch}) => {
+export const load = (async ({fetch, depends}) => {
+	depends('posts');
+
 	const posts = await request({
 		method: 'GET',
 		url: '/posts',

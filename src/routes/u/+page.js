@@ -1,7 +1,9 @@
 import {request} from "$lib/request.js";
 import {handleErrorsLoad} from "$lib/errors.js";
 
-export const load = (async ({fetch}) => {
+export const load = (async ({fetch, depends}) => {
+	depends('users');
+
 	return {
 		users: await request({
 			method: 'GET',
