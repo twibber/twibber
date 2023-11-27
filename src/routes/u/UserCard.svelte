@@ -1,5 +1,7 @@
 <script>
 	import {toast} from "$lib/toaster.js";
+	import Icon from "@iconify/svelte";
+
 	export let user;
 
 	async function toggleFollow() {
@@ -14,9 +16,15 @@
         <div class="flex items-center gap-3">
             <img class="w-12 h-12 rounded-full border-2 border-gray-600"
                  src={user?.avatar || "https://via.placeholder.com/100"}
-                 alt="User avatar" />
+                 alt="User avatar"/>
             <div>
-                <div class="font-semibold text-white">{user?.display_name}</div>
+                <h1 class="flex flex-row justify-start items-center gap-1 w-32 truncate text-base font-medium">{user?.display_name}
+                    {#if user?.admin}
+                        <Icon icon="material-symbols:verified" class="w-5 h-5 text-yellow-500"/>
+                    {:else if user?.verified_person}
+                        <Icon icon="material-symbols:verified" class="w-5 h-5 text-blue-500"/>
+                    {/if}
+                </h1>
                 <div class="text-sm text-gray-400">@{user?.username}</div>
             </div>
         </div>
