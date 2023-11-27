@@ -2,7 +2,7 @@ import {request} from "$lib/request.js";
 import {handleErrorsLoad} from "$lib/errors.js";
 
 export const load = (async ({fetch, depends}) => {
-	depends('users');
+	depends('app:users');
 
 	return {
 		users: await request({

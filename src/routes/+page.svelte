@@ -2,7 +2,7 @@
 	import Display from "$components/Display.svelte";
 	import Post from "$components/Post.svelte";
 	import {invalidate} from "$app/navigation";
-	import {getURL, request} from "$lib/request.js";
+	import {request} from "$lib/request.js";
 	import {toast} from "$lib/toaster.js";
 	import {errors, handleErrors} from "$lib/errors.js";
 
@@ -20,7 +20,7 @@
 			if (res?.body?.success) {
 				content = "";
 				toast.success("Post created!");
-				invalidate(getURL("/posts"));
+				invalidate("app:posts");
 			}
 		}).catch(handleErrors);
 	}
@@ -37,7 +37,8 @@
         title="Feed"
 >
     {#if data?.session}
-        <form on:submit|preventDefault={handlePostCreate} class="flex flex-col relative border-b border-gray-800 p-4 w-full">
+        <form on:submit|preventDefault={handlePostCreate}
+              class="flex flex-col relative border-b border-gray-800 p-4 w-full">
             <textarea bind:value={content}
                       class="w-full rounded-md bg-gray-950 text-gray-200 p-4 focus:ring-0 focus:outline-none border-2 border-gray-900 focus:border-blue-900"
                       placeholder="Tweeb your mind..."/>

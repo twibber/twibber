@@ -70,8 +70,8 @@
 			if (res?.body?.success) {
 				toast.success(successMessage);
 
-				void invalidate("profile")
-				void invalidate("posts")
+				void invalidate("app:profile")
+				void invalidate("app:posts")
 
 				// Optimistically update the post
 				if (action.method === 'DELETE' && action.url === '') {

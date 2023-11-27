@@ -2,7 +2,7 @@ import {request} from "$lib/request.js";
 import {handleErrorsLoad} from "$lib/errors.js";
 
 export const load = (async ({fetch, params, depends}) => {
-	depends('profile');
+	depends('app:profile');
 
 	return {
 		profile: {
