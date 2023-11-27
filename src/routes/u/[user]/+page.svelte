@@ -63,7 +63,7 @@
             </div>
         </div>
         <div>
-            {#if data?.profile?.user?.id === data.session.connection?.user?.id}
+            {#if data?.profile?.user?.id === data?.session?.connection?.user?.id}
                 <a href={`/u/${data?.profile?.user?.username}/settings`}
                    class="btn bg-gray-600 hover:bg-gray-700">
                     Settings

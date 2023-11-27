@@ -6,7 +6,7 @@
 	import Modal from '$components/Modal.svelte';
 
 	import NProgress from "nprogress";
-	import {navigating} from "$app/stores";
+	import {navigating, page} from "$app/stores";
 
 	import {env} from "$env/dynamic/public";
 	import {setModal} from "$lib/modals.js";
@@ -46,6 +46,10 @@
 			auth: true
 		}
 	];
+
+	page.subscribe((page) => {
+		console.dir(page, {depth: null})
+    });
 </script>
 
 <svelte:head>

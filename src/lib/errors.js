@@ -29,16 +29,13 @@ export const handleErrorsLoad = (err) => {
 export const handleErrors = (err) => {
 	console.log(err)
 
-	console.log(err?.body?.data?.code)
-	switch (err?.body?.data?.code) {
-		case "UNAUTHORIZED":
-			throw redirect(302, '/');
-		case "UNVERIFIED":
-			setModal('verify');
-	}
-
 	if (err?.body?.success === false) {
 		toast.error(err.body?.data?.message);
 		errors.set(err.body?.data?.details?.fields || []);
+	}
+
+	switch (err?.body?.data?.code) {
+		case "UNVERIFIED":
+			setModal('verify');
 	}
 };
