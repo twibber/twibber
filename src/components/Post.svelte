@@ -6,11 +6,13 @@
 	import Icon from "@iconify/svelte";
 	import {toast} from "$lib/toaster.js";
 	import {handleErrors} from "$lib/errors.js";
-	import {getURL, request} from "$lib/request.js";
+	import {request} from "$lib/request.js";
 	import {invalidate} from "$app/navigation";
 	import {onMount} from "svelte";
+	import {setModal} from "$lib/modals.js";
+	import Post from './Post.svelte';
 
-	export let post;
+	export let post, repost = null;
 	let currentTime = new Date();
 	let sanitizedContent = '';
 	let fullDate = '';
@@ -103,15 +105,11 @@
 			handleAction({method: 'POST', url: '/like'}, "Post liked!");
 		}
 	}
-
-	function notImpl() {
-		toast.error("Not implemented yet!");
-	}
 </script>
 
 {#if post}
 
-    <li class="bg-gray-800 rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+    <li class={`bg-gray-800 rounded-md overflow-hidden transition duration-300 ${repost ? "border border-gray-700" : ""}`}>
         <a href={`/u/${post?.user?.username}`}
            class="block hover:bg-gray-900/[15%] transition-colors duration-300">
             <div class="flex items-center justify-between p-2 border-b border-gray-700">
@@ -136,8 +134,11 @@
             </div>
         </a>
         <!-- Post Content -->
-        <div class="p-4 text-gray-300 border-b border-gray-700 text-xs md:text-sm">
+        <div class="flex flex-col p-4 text-gray-300 border-b border-gray-700 text-xs md:text-sm hover:bg-opacity-75 transition duration-300 gap-2">
             {@html sanitizedContent}
+            {#if post?.type === "repost"}
+                <Post post={post?.parent} repost={post}/>
+            {/if}
         </div>
         <!-- Interaction Buttons -->
         <div class="flex flex-wrap justify-between items-center px-4 py-2 bg-gray-800 rounded-b-lg">
@@ -152,17 +153,23 @@
                     {/if}
                     <span class="text-xs hidden sm:inline">({post?.counts?.likes})</span>
                 </button>
+
                 <!-- Repost Button -->
-                <button on:click={notImpl}
-                        class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
-                    <Icon icon="material-symbols:repeat" class="w-5 h-5 text-current"/>
-                    <span class="text-xs hidden sm:inline">({post?.counts?.replies})</span>
-                </button>
+                {#if post.type !== "repost"}
+                    <button on:click={() => {
+					setModal("repost", {post})
+                }}
+                            class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
+                        <Icon icon="material-symbols:repeat" class="w-5 h-5 text-current"/>
+                        <span class="text-xs hidden sm:inline">({post?.counts?.reposts})</span>
+                    </button>
+                {/if}
+
                 <!-- Replies Button -->
                 <a href={`/p/${post?.id}`}
                    class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-yellow-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
                     <Icon icon="material-symbols:reply" class="w-5 h-5 text-current"/>
-                    <span class="text-xs hidden sm:inline">({post?.counts?.reposts})</span>
+                    <span class="text-xs hidden sm:inline">({post?.counts?.replies})</span>
                 </a>
             </div>
             <!-- Delete Button (Conditional) -->

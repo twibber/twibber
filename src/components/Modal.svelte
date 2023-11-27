@@ -4,6 +4,7 @@
 	import Login from "$components/Modal/Login.svelte";
 	import Register from "$components/Modal/Register.svelte";
 	import Verify from "$components/Modal/Verify.svelte";
+	import Repost from "$components/Modal/Repost.svelte";
 </script>
 
 <svelte:window
@@ -21,5 +22,7 @@
         <Register/>
     {:else if $modal?.modal === 'verify'}
         <Verify/>
+    {:else if $modal?.modal === 'repost'}
+        <Repost post={$modal?.data?.post}/>
     {/if}
 {/if}
