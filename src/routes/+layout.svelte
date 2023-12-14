@@ -6,12 +6,14 @@
 	import Modal from '$components/Modal.svelte';
 
 	import NProgress from "nprogress";
-	import {navigating, page} from "$app/stores";
+	import {navigating} from "$app/stores";
 
 	import {env} from "$env/dynamic/public";
 	import {setModal} from "$lib/modals.js";
 	import {logout} from "$lib/buttons.js";
 	import Icon from "@iconify/svelte";
+
+	export let data;
 
 	NProgress.configure({
 		minimum: 0.30,
@@ -20,12 +22,13 @@
 
 	$: NProgress[$navigating ? 'start' : 'done']();
 
-	export let data;
+	let links = [];
 
-	const links = [
+	// make it state dependant, to prevent it from having undefined values on profile and settings
+	$: links = [
 		{
 			title: "Feed",
-			icon: "material-symbols:document-scanner-outline-sharp", // icon of posts
+			icon: "material-symbols:document-scanner-outline-sharp",
 			href: "/"
 		},
 		{
@@ -45,11 +48,7 @@
 			href: `/u/${data?.session?.connection?.user?.username}/settings`,
 			auth: true
 		}
-	];
-
-	page.subscribe((page) => {
-		console.dir(page, {depth: null})
-    });
+	]
 </script>
 
 <svelte:head>
@@ -110,7 +109,18 @@
         </nav>
     </div>
 
-    <slot/>
+    <!--  If content is empty, display a loader  -->
+    <main class="text-white max-w-screen-md w-full min-h-screen max-h-screen">
+        <div class="h-screen max-h-screen min-h-screen">
+            {#if $navigating}
+                <div class="w-full h-full flex justify-center items-center">
+                    <Icon icon="akar-icons:loading" class="w-10 h-10 animate-spin"/>
+                </div>
+            {/if}
+            <slot/>
+        </div>
+    </main>
+
 
     <div class="flex-col relative items-start w-full min-h-screen h-full hidden xl:flex max-w-xs mr-auto border-l border-gray-800">
 

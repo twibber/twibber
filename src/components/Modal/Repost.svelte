@@ -23,7 +23,7 @@
 			if (res?.body?.success) {
 				hideModal();
 				toast.success("Reposted successfully!");
-				invalidate("posts")
+				void invalidate("app:posts")
 			}
 		}).catch(handleErrors);
 	}

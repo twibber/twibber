@@ -3,8 +3,6 @@
 
 	import UserData from "$components/UserData.svelte";
 
-	import Post from "$components/Post.svelte";
-
 	export let data;
 </script>
 
@@ -13,9 +11,7 @@
 >
     <UserData profile={data?.profile} session={data.session}/>
 
-    <ul role="list" class="space-y-3 p-4">
-        {#each data?.profile?.posts || [] as post (post.id)}
-            <Post {post}/>
-        {/each}
-    </ul>
+    <div class="text-center text-gray-500 py-8">
+        This page has not yet been implemented.
+    </div>
 </Display>

@@ -1,12 +1,8 @@
 <script>
-	import {toast} from "$lib/toaster.js";
-	import Icon from "@iconify/svelte";
+	import FollowButton from "$components/FollowButton.svelte";
+    import Icon from "@iconify/svelte";
 
 	export let user;
-
-	async function toggleFollow() {
-		toast.error("Not implemented yet!");
-	}
 </script>
 
 <a
@@ -16,7 +12,7 @@
         <div class="flex items-center gap-3">
             <img class="w-12 h-12 rounded-full border-2 border-gray-600"
                  src={user?.avatar || "https://via.placeholder.com/100"}
-                 alt="User avatar"/>
+                 alt="User Avatar"/>
             <div>
                 <h1 class="flex flex-row justify-start items-center gap-1 w-32 truncate text-base font-medium">{user?.display_name}
                     {#if user?.admin}
@@ -28,17 +24,6 @@
                 <div class="text-sm text-gray-400">@{user?.username}</div>
             </div>
         </div>
-        <button
-                class="btn bg-blue-600 hover:bg-blue-700"
-                on:click|stopPropagation|preventDefault={toggleFollow}
-        >
-            Follow
-        </button>
+        <FollowButton user={user} />
     </div>
 </a>
-
-<style lang="postcss">
-    .btn {
-        @apply text-white font-medium py-2 px-4 rounded transition;
-    }
-</style>

@@ -30,10 +30,10 @@
 
 	const updateTime = () => {
 		currentTime = new Date();
-		if (post?.created) {
-			secondsElapsed = Math.floor((currentTime.getTime() - new Date(post.created).getTime()) / 1000);
+		if (post?.created_at) {
+			secondsElapsed = Math.floor((currentTime.getTime() - new Date(post.created_at).getTime()) / 1000);
 			formattedTime = formatElapsedTime(secondsElapsed);
-			fullDate = new Date(post.created).toLocaleString();
+			fullDate = new Date(post.created_at).toLocaleString();
 		}
 	};
 
@@ -65,15 +65,15 @@
 
 	async function handleAction(action = {
 		method: '',
-		url: ''
+        url: ''
 	}, successMessage) {
 		try {
 			const res = await request({method: action.method, url: '/posts/' + post.id + action?.url ?? ""});
 			if (res?.body?.success) {
 				toast.success(successMessage);
 
-				void invalidate("app:profile")
 				void invalidate("app:posts")
+				void invalidate("app:profile")
 
 				// Optimistically update the post
 				if (action.method === 'DELETE' && action.url === '') {
@@ -94,7 +94,7 @@
 	function handleDelete() {
 		handleAction({
 			method: 'DELETE',
-			url: ''
+            url: ''
 		}, "Post deleted!");
 	}
 
@@ -108,7 +108,6 @@
 </script>
 
 {#if post}
-
     <li class={`bg-gray-800 rounded-md overflow-hidden transition duration-300 ${repost ? "border border-gray-700" : ""}`}>
         <a href={`/u/${post?.user?.username}`}
            class="block hover:bg-gray-900/[15%] transition-colors duration-300">

@@ -1,5 +1,7 @@
 import {request} from "$lib/request.js";
 
+export const ssr = false;
+
 export const load = (async ({fetch, depends}) => {
 	depends('app:session');
 
