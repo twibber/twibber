@@ -2,6 +2,7 @@
 	import Display from "$components/Display.svelte";
 
 	import UserData from "$components/UserData.svelte";
+	import UserCard from "$components/UserCard.svelte";
 
 	export let data;
 </script>
@@ -11,7 +12,9 @@
 >
     <UserData profile={data?.profile} session={data.session}/>
 
-    <div class="text-center text-gray-500 py-8">
-        This page has not yet been implemented.
-    </div>
+    <ul role="list" class="space-y-3 p-4">
+        {#each data?.followers as user (user.id)}
+            <UserCard user={user}/>
+        {/each}
+    </ul>
 </Display>

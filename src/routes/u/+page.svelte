@@ -1,6 +1,6 @@
 <script>
 	import Display from "$components/Display.svelte";
-	import UserCard from "./UserCard.svelte";
+	import UserCard from "$components/UserCard.svelte";
 
 	export let data;
 </script>

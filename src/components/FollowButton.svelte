@@ -27,6 +27,8 @@
 
 				void invalidate('app:profile');
 				void invalidate('app:users');
+				void invalidate('app:followers');
+				void invalidate('app:following');
 
 				promise = null;
 			}
