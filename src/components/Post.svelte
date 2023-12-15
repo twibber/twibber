@@ -65,7 +65,7 @@
 
 	async function handleAction(action = {
 		method: '',
-        url: ''
+		url: ''
 	}, successMessage) {
 		try {
 			const res = await request({method: action.method, url: '/posts/' + post.id + action?.url ?? ""});
@@ -94,7 +94,7 @@
 	function handleDelete() {
 		handleAction({
 			method: 'DELETE',
-            url: ''
+			url: ''
 		}, "Post deleted!");
 	}
 
@@ -133,7 +133,7 @@
             </div>
         </a>
         <!-- Post Content -->
-        <div class="flex flex-col p-4 text-gray-300 border-b border-gray-700 text-xs md:text-sm hover:bg-opacity-75 transition duration-300 gap-2">
+        <div class="flex flex-col p-4 text-gray-300 border-b border-gray-700 text-xs md:text-sm hover:bg-opacity-75 transition duration-300 gap-2 max-w-full break-all sm:break-words">
             {@html sanitizedContent}
             {#if post?.type === "repost"}
                 <Post post={post?.parent} repost={post}/>
@@ -141,16 +141,16 @@
         </div>
         <!-- Interaction Buttons -->
         <div class="flex flex-wrap justify-between items-center px-4 py-2 bg-gray-800 rounded-b-lg">
-            <div class="flex gap-2">
+            <div class="flex gap-1 sm:gap-2">
                 <!-- Like Button -->
                 <button on:click={handleLike}
                         class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-red-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700 ">
                     {#if post?.liked}
-                        <Icon icon="mdi:heart" class="w-5 h-5 text-red-500"/>
+                        <Icon icon="mdi:heart" class="w-4 h-4 sm:w-5 sm:h-5 text-red-500"/>
                     {:else}
-                        <Icon icon="mdi:heart-outline" class="w-5 h-5 text-current"/>
+                        <Icon icon="mdi:heart-outline" class="w-4 h-4 sm:w-5 sm:h-5 text-current"/>
                     {/if}
-                    <span class="text-xs hidden sm:inline">({post?.counts?.likes})</span>
+                    <span class="text-xs">({post?.counts?.likes})</span>
                 </button>
 
                 <!-- Repost Button -->
@@ -159,16 +159,16 @@
 					setModal("repost", {post})
                 }}
                             class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-green-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
-                        <Icon icon="material-symbols:repeat" class="w-5 h-5 text-current"/>
-                        <span class="text-xs hidden sm:inline">({post?.counts?.reposts})</span>
+                        <Icon icon="material-symbols:repeat" class="w-4 h-4 sm:w-5 sm:h-5 text-current"/>
+                        <span class="text-xs">({post?.counts?.reposts})</span>
                     </button>
                 {/if}
 
                 <!-- Replies Button -->
                 <a href={`/p/${post?.id}`}
                    class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-yellow-400 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
-                    <Icon icon="material-symbols:reply" class="w-5 h-5 text-current"/>
-                    <span class="text-xs hidden sm:inline">({post?.counts?.replies})</span>
+                    <Icon icon="material-symbols:reply" class="w-4 h-4 sm:w-5 sm:h-5 text-current"/>
+                    <span class="text-xs">({post?.counts?.replies})</span>
                 </a>
             </div>
             <!-- Delete Button (Conditional) -->
@@ -176,7 +176,7 @@
                 <div class="flex-grow"></div>
                 <button on:click={handleDelete}
                         class="flex items-center gap-1 sm:gap-2 text-gray-300 hover:text-red-500 transition duration-150 ease-in-out px-2 py-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-700">
-                    <Icon icon="material-symbols:delete-outline" class="w-5 h-5 text-current"/>
+                    <Icon icon="material-symbols:delete-outline" class="w-4 h-4 sm:w-5 sm:h-5 text-current"/>
                 </button>
             {/if}
         </div>

@@ -58,6 +58,6 @@
 
 <style lang="postcss">
     .btn {
-        @apply text-white font-medium py-2 px-4 rounded transition;
+        @apply text-white font-medium rounded transition py-1 px-2 text-xs md:text-base sm:py-2 sm:px-4;
     }
 </style>

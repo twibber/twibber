@@ -67,7 +67,7 @@
         <!-- Show settings if own page -->
         {#if profile?.user?.id === session?.connection?.user?.id}
             <a href={`/u/${profile?.user?.username}/settings`}
-               class="btn bg-gray-600 hover:bg-gray-700">
+               class="rounded px-4 py-2 bg-gray-600 hover:bg-gray-700">
                 Settings
             </a>
         {:else}
