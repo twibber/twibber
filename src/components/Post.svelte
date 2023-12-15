@@ -75,8 +75,7 @@
 				void invalidate("app:posts")
 				void invalidate("app:profile")
 
-                // Commented out because it causes a bug where the post disappears after liking it
-				/*// Optimistically update the post
+				// Optimistically update the post
 				if (action.method === 'DELETE' && action.url === '') {
 					post = null;
 				} else if (action.method === 'POST' && action.url === '/like') {
@@ -85,7 +84,7 @@
 				} else if (action.method === 'DELETE' && action.url === '/like') {
 					post.liked = false;
 					post.counts.likes = Math.max(0, post.counts.likes - 1);
-				}*/
+				}
 			}
 		} catch (error) {
 			handleErrors(error);
