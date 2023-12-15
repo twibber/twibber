@@ -11,7 +11,7 @@
 <Display
         title={data?.profile?.user?.username || "Profile"}
 >
-    <UserData profile={data?.profile} session={data.session}/>
+    <UserData profile={data?.profile} session={data?.session}/>
 
     <ul role="list" class="space-y-3 p-4">
         {#each data?.profile?.posts || [] as post (post.id)}

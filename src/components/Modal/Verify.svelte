@@ -19,7 +19,7 @@
 			body: {
 				code
 			},
-			captcha: "login",
+			captcha: "verify",
 		}).then((res) => {
 			if (res?.body?.success) {
 				toast.success("Email address was successfully verified!");
@@ -28,6 +28,8 @@
 			}
 		}).catch(handleErrors);
 	}
+
+	console.log("page", $page);
 </script>
 
 <Template
