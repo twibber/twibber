@@ -30,12 +30,14 @@
         </h1>
         <div class="text-sm">
             <span class="text-gray-400">@{profile?.user?.username}</span>
-            {#if profile?.user?.following && profile?.user?.follows_you}
-                <span class="text-gray-400 text-xs h-full w-full bg-gray-900 py-1 px-2 rounded">Friends</span>
+            {#if profile?.user?.id === session?.connection?.user?.id}
+                <span class="badge">Yourself</span>
+            {:else if profile?.user?.you_follow && profile?.user?.follows_you}
+                <span class="badge">Friends</span>
             {:else if profile?.user?.follows_you}
-                <span class="text-gray-400 text-xs h-full w-full bg-gray-900 py-1 px-2 rounded">Follows you</span>
-            {:else if profile?.user?.following}
-                <span class="text-gray-400 text-xs h-full w-full bg-gray-900 py-1 px-2 rounded">Following</span>
+                <span class="badge">Follows you</span>
+            {:else if profile?.user?.you_follow}
+                <span class="badge">Following</span>
             {/if}
         </div>
         <div class="mt-2 w-full">
@@ -73,3 +75,9 @@
         {/if}
     </div>
 </div>
+
+<style lang="postcss">
+    .badge {
+        @apply text-gray-400 text-xs h-full w-full bg-gray-950 py-0.5 px-1 rounded
+    }
+</style>
