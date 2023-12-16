@@ -8,6 +8,7 @@
 	import {goto, invalidate} from "$app/navigation";
 	import {handleErrors} from "$lib/errors.js";
 	import {buttons} from "$lib/buttons.js";
+	import {page} from "$app/stores";
 
 	export let data;
 
@@ -48,7 +49,7 @@
 
 <Display
         title={`${data?.profile?.user?.username}'s Settings` || "Settings"}
-        buttons={buttons.account}
+        buttons={data?.session?.connection?.user?.username === $page.params.user ? buttons.account : []}
 >
     <UserData profile={data?.profile} session={data.session}/>
 

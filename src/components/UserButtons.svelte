@@ -48,7 +48,7 @@
 				toast.success(`You deleted ${user?.username}`);
 				user = null;
 
-				if ($page.url.pathname === "/u") {
+				if ($page.url.pathname === "/u" || $page.url.pathname === "/u/") {
 					void invalidate('app:users');
 				} else {
 					void goto('/u');
@@ -69,7 +69,7 @@
         Settings
     </a>
 {:else}
-    <div class={`flex ${$page.url.pathname === "/u" ? 'flex-row' : 'flex-col'} justify-center items-center gap-2`}>
+    <div class={`flex ${$page.url.pathname === "/u" ? 'flex-row' : 'flex-col'} justify-center items-end gap-2`}>
         <button
                 disabled={following}
                 class={`btn ${user?.you_follow ? 'bg-red-700 disabled:bg-red-800' : 'bg-blue-700 disabled:bg-blue-800'} flex items-center gap-2`}
