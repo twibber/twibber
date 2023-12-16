@@ -5,7 +5,7 @@
 	import Input from "$components/Input.svelte";
 	import {request} from "$lib/request.js";
 	import {toast} from "$lib/toaster.js";
-	import {goto, invalidate} from "$app/navigation";
+	import {goto, invalidate, invalidateAll} from "$app/navigation";
 	import {handleErrors} from "$lib/errors.js";
 
 	export let data;
@@ -33,6 +33,7 @@
 				toast.success("Profile updated successfully!");
 
 				if (username !== data?.profile?.user?.username) {
+					void invalidate("app:session")
 					void goto(`/u/${username}/settings`);
 				} else {
 					void invalidate("app:profile");
