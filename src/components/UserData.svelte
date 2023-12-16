@@ -11,7 +11,6 @@
     <img src={profile?.user?.banner || "https://open-placeholder.vercel.app/1920x1080"}
          alt="banner"
          class="w-full h-64 object-cover object-center bg-gray-950 m-auto"/>
-    <!--Rounded image-->
     <div class="absolute bottom-0 left-0 w-full px-4">
         <img class="bg-gray-800 w-32 h-32 border-4 border-gray-900 -mb-4 sm:-mb-8 md:-mb-16 m-auto object-cover object-center"
              src={profile?.user?.avatar || "https://open-placeholder.vercel.app/100"}
@@ -21,7 +20,7 @@
 
 <div class="flex flex-row justify-between items-center w-full bg-gray-900 border-b border-gray-800 p-4">
     <div class="flex flex-col">
-        <h1 class="text-lg md:text-xl font-bold flex flex-row justify-start items-center gap-1 w-32 truncate">{profile?.user?.display_name}
+        <h1 class="text-lg md:text-xl font-bold flex flex-row justify-start items-center gap-1 w-64 truncate">{profile?.user?.display_name}
             {#if profile?.user?.admin}
                 <Icon icon="material-symbols:verified" class="w-5 h-5 text-yellow-500"/>
             {:else if profile?.user?.verified_person}
@@ -64,15 +63,7 @@
         </div>
     </div>
     <div>
-        <!-- Show settings if own page -->
-        {#if profile?.user?.id === session?.connection?.user?.id}
-            <a href={`/u/${profile?.user?.username}/settings`}
-               class="rounded px-4 py-2 bg-gray-600 hover:bg-gray-700">
-                Settings
-            </a>
-        {:else}
-            <FollowButton user={profile?.user}/>
-        {/if}
+        <FollowButton user={profile?.user}/>
     </div>
 </div>
 

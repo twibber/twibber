@@ -8,7 +8,7 @@
 </script>
 
 <Display
-        title={data?.profile?.user?.username || "Profile"}
+        title={`${data?.profile?.user?.username}'s Followers` || "Followers"}
 >
     <UserData profile={data?.profile} session={data.session}/>
 
