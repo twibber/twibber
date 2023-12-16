@@ -3,12 +3,14 @@
 
 	import UserData from "$components/UserData.svelte";
 	import UserCard from "$components/UserCard.svelte";
+	import {buttons} from "$lib/buttons.js";
 
 	export let data;
 </script>
 
 <Display
         title={`${data?.profile?.user?.username}'s Followers` || "Followers"}
+        buttons={buttons.account}
 >
     <UserData profile={data?.profile} session={data.session}/>
 

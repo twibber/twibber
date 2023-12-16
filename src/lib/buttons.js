@@ -13,3 +13,16 @@ export const logout = async () =>
 			}
 		})
 		.catch(handleErrors);
+
+export let buttons = {
+	account: [
+		{
+			href: `/account/[user]/settings`,
+			icon: 'mdi:cog'
+		},
+		{
+			href: `/account/[user]/settings/security`,
+			icon: 'mdi:shield-lock'
+		},
+	]
+}

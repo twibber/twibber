@@ -113,9 +113,7 @@
     <main class="text-white max-w-screen-md w-full min-h-screen max-h-screen">
         <div class="h-screen max-h-screen min-h-screen">
             {#if $navigating}
-                <div
-                        class="w-full"
-                />
+                <div class="w-full"/>
             {/if}
             <slot/>
         </div>

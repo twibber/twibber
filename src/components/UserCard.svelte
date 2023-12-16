@@ -1,5 +1,5 @@
 <script>
-	import FollowButton from "$components/FollowButton.svelte";
+	import UserButtons from "$components/UserButtons.svelte";
     import Icon from "@iconify/svelte";
 
 	export let user;
@@ -24,6 +24,6 @@
                 <div class="text-xs sm:text-sm text-gray-400">@{user?.username}</div>
             </div>
         </div>
-        <FollowButton user={user} />
+        <UserButtons user={user} />
     </div>
 </a>

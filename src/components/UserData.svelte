@@ -1,7 +1,7 @@
 <script>
 	import Icon from "@iconify/svelte";
 
-	import FollowButton from "$components/FollowButton.svelte";
+	import UserButtons from "$components/UserButtons.svelte";
 
 	export let profile;
 	export let session;
@@ -63,7 +63,7 @@
         </div>
     </div>
     <div>
-        <FollowButton user={profile?.user}/>
+        <UserButtons user={profile?.user}/>
     </div>
 </div>
 

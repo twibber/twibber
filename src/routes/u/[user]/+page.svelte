@@ -4,12 +4,14 @@
 	import UserData from "$components/UserData.svelte";
 
 	import Post from "$components/Post.svelte";
+	import {buttons} from "$lib/buttons.js";
 
 	export let data;
 </script>
 
 <Display
         title={data?.profile?.user?.username || "Profile"}
+        buttons={buttons.account}
 >
     <UserData profile={data?.profile} session={data?.session}/>
 

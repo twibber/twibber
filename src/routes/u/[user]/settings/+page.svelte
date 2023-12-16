@@ -5,8 +5,9 @@
 	import Input from "$components/Input.svelte";
 	import {request} from "$lib/request.js";
 	import {toast} from "$lib/toaster.js";
-	import {goto, invalidate, invalidateAll} from "$app/navigation";
+	import {goto, invalidate} from "$app/navigation";
 	import {handleErrors} from "$lib/errors.js";
+	import {buttons} from "$lib/buttons.js";
 
 	export let data;
 
@@ -47,6 +48,7 @@
 
 <Display
         title={`${data?.profile?.user?.username}'s Settings` || "Settings"}
+        buttons={buttons.account}
 >
     <UserData profile={data?.profile} session={data.session}/>
 
