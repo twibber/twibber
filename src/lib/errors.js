@@ -19,14 +19,16 @@ export const handleErrorsLoad = (err) => {
 
 
 export const handleErrors = (err) => {
-	console.log(err)
+	console.log(err?.body?.data)
+	console.log(err?.data)
 
-	if (err?.body?.success === false) {
-		toast.error(err.body?.data?.message);
-		errors.set(err.body?.data?.details?.fields || []);
-	}
+	// this allows us to use it with normal fetch requests as well
+	let data = err?.body?.data || err?.data;
 
-	switch (err?.body?.data?.code) {
+	toast.error(data?.message);
+	errors.set(data?.details?.fields || []);
+
+	switch (data?.code) {
 		case "UNAUTHORIZED":
 			setModal('login');
 			break;

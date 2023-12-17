@@ -1,6 +1,6 @@
-import { request } from '$lib/request.js';
-import { handleErrors } from '$lib/errors.js';
-import { invalidateAll } from '$app/navigation';
+import {request} from '$lib/request.js';
+import {handleErrors} from '$lib/errors.js';
+import {invalidateAll} from '$app/navigation';
 
 export const logout = async () =>
 	await request({
@@ -16,13 +16,15 @@ export const logout = async () =>
 
 export let buttons = {
 	account: [
+		// profile
 		{
-			href: `/account/[user]/settings`,
+			href: `/u/[user]/settings`,
 			icon: 'mdi:cog'
 		},
+		// security
 		{
-			href: `/account/[user]/settings/security`,
-			icon: 'mdi:shield-lock'
+			href: `/u/[user]/settings/security`,
+			icon: 'mdi:account-lock'
 		},
 	]
 }
