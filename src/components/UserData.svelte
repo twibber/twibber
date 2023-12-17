@@ -1,9 +1,10 @@
 <script>
 	import Icon from "@iconify/svelte";
 	import UserButtons from "$components/UserButtons.svelte";
-	import { request, getURL } from "$lib/request.js";
-	import { invalidate } from "$app/navigation";
-	import { handleErrors } from "$lib/errors.js";
+	import {getURL} from "$lib/request.js";
+	import {invalidate} from "$app/navigation";
+	import {handleErrors} from "$lib/errors.js";
+	import {toast} from "$lib/toaster.js";
 
 	export let profile;
 	export let session;
@@ -36,6 +37,7 @@
 			response = await response.json();
 
 			if (response.success) {
+				toast.success("Image uploaded successfully");
 				await invalidate('app:profile');
 			} else {
 				handleErrors(response);
@@ -73,7 +75,8 @@
 
             <!-- Edit Avatar -->
             {#if profile?.user?.id === session?.connection?.user?.id}
-                <form bind:this={avatar} enctype="multipart/form-data" on:submit|preventDefault={() => handleUpload("avatar")}>
+                <form bind:this={avatar} enctype="multipart/form-data"
+                      on:submit|preventDefault={() => handleUpload("avatar")}>
                     <label for="avatar"
                            class="absolute top-1 right-1 p-1 sm:p-2 rounded-full text-gray-400 bg-gray-700 hover:text-gray-300 hover:bg-gray-800 transition cursor-pointer">
                         <Icon icon="mdi:edit" class="w-4 h-4 text-gray-400 text-current"/>
