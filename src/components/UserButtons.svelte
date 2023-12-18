@@ -83,18 +83,20 @@
             {user?.you_follow ? 'Unfollow' : 'Follow'}
         </button>
 
-        <button
-                disabled={deleting}
-                class="btn bg-red-700 disabled:bg-red-800 flex items-center gap-2"
-                on:click|stopPropagation|preventDefault={deleteUser}
-        >
-            {#if deleting}
-                <Icon icon={"mdi:loading"} class="text-lg animate-spin"/>
-            {:else}
-                <Icon icon={"mdi:account-remove"} class="text-lg"/>
-            {/if}
-            Delete
-        </button>
+        {#if $page?.data?.session?.connection?.user?.admin}
+            <button
+                    disabled={deleting}
+                    class="btn bg-red-700 disabled:bg-red-800 flex items-center gap-2"
+                    on:click|stopPropagation|preventDefault={deleteUser}
+            >
+                {#if deleting}
+                    <Icon icon={"mdi:loading"} class="text-lg animate-spin"/>
+                {:else}
+                    <Icon icon={"mdi:account-remove"} class="text-lg"/>
+                {/if}
+                Delete
+            </button>
+        {/if}
     </div>
 {/if}
 

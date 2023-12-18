@@ -44,7 +44,6 @@
 			}
 		} catch (error) {
 			console.error('Error uploading image:', error);
-			// Handle fetch error
 		}
 	}
 </script>
@@ -55,7 +54,7 @@
          class="w-full h-64 object-cover object-center bg-gray-950 m-auto"/>
 
     {#if profile?.user?.id === session?.connection?.user?.id}
-        <form bind:this={banner} enctype="multipart/form-data" on:submit|preventDefault={() => handleUpload("banner")}>
+        <form bind:this={banner} on:submit|preventDefault={() => handleUpload("banner")}>
             <label for="banner"
                    class="absolute top-3 right-3 p-1 sm:p-2 rounded-full text-gray-400 bg-gray-700 hover:text-gray-300 hover:bg-gray-800 transition cursor-pointer">
                 <Icon icon="mdi:edit" class="w-4 h-4 text-gray-400 text-current"/>
@@ -75,7 +74,7 @@
 
             <!-- Edit Avatar -->
             {#if profile?.user?.id === session?.connection?.user?.id}
-                <form bind:this={avatar} enctype="multipart/form-data"
+                <form bind:this={avatar}
                       on:submit|preventDefault={() => handleUpload("avatar")}>
                     <label for="avatar"
                            class="absolute top-1 right-1 p-1 sm:p-2 rounded-full text-gray-400 bg-gray-700 hover:text-gray-300 hover:bg-gray-800 transition cursor-pointer">
