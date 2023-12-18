@@ -13,6 +13,8 @@
 		if (password !== cPassword) {
 			addError("password", 'Passwords do not match')
 			addError("cPassword", 'Passwords do not match')
+
+            return;
 		}
 
 		return await request({
