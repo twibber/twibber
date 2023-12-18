@@ -35,8 +35,9 @@
 				toast.success("Profile updated successfully!");
 
 				if (username !== data?.profile?.user?.username) {
-					void invalidate("app:session")
-					void goto(`/u/${username}/settings`);
+					void goto(`/u/${username}/settings`, {
+						invalidateAll: true,
+					});
 				} else {
 					void invalidate("app:profile");
 				}

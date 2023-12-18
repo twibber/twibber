@@ -1,13 +1,20 @@
-import { writable } from 'svelte/store';
+import {writable} from 'svelte/store';
 import {errors} from "$lib/errors.js";
 
-export const modalStore = writable({ modal: '', data: null });
+export const modalStore = writable({modal: '', data: null});
 
 export const setModal = (modal, data) => {
-	modalStore.set({ modal, data });
+	// reset errors in case of modal change
+	errors.set([]);
+
+	// set modal
+	modalStore.set({modal, data});
 };
 
 export const hideModal = () => {
-	modalStore.set({ modal: '', data: null });
+	// hide modal
+	modalStore.set({modal: '', data: null});
+
+	// reset errors
 	errors.set([]);
 };
