@@ -16,7 +16,7 @@
     <UserData profile={data?.profile} session={data.session}/>
 
     <ul role="list" class="space-y-3 p-4">
-        {#each data?.following as user (user.id)}
+        {#each data?.following || [] as user (user.id)}
             <UserCard user={user}/>
         {/each}
     </ul>

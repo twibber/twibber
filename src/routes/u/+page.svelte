@@ -7,7 +7,7 @@
 
 <Display title={"Users"}>
     <ul role="list" class="space-y-3 p-4">
-        {#each data?.users as user (user.id)}
+        {#each data?.users || [] as user (user.id)}
             <UserCard user={user}/>
         {/each}
     </ul>

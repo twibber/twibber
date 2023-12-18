@@ -20,7 +20,7 @@
     <!--<div class="flex flex-col gap-2 w-full p-4">
         <div class="text-xl font-bold">Sessions</div>
         <div class="grid grid-cols-2">
-            {#each data?.security?.sessions as session (session.id)}
+            {#each data?.security?.sessions || [] as session (session.id)}
                 <div class="flex flex-col gap-2 p-4 border rounded">
                     <div class="flex flex-col justify-between">
                         <div class="font-bold">{session?.info?.ip_addresses?.join(", ")}</div>
